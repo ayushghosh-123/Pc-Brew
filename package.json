@@ -1,0 +1,52 @@
+{
+  "name": "pcbrew",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "bin": {
+    "pcbrew": "./index.ts"
+  },
+  "scripts": {
+    "start": "bun run index.ts start",
+    "setup": "bun run index.ts setup",
+    "config": "bun run index.ts config",
+    "wakeup": "bun run index.ts wakeup",
+    "telegram": "bun run index.ts telegram",
+    "whatsapp": "bun run index.ts whatsapp",
+    "web:dev": "bun --cwd web dev",
+    "web:build": "bun --cwd web build",
+    "web:start": "bun --cwd web start"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/marked-terminal": "^6.1.1",
+    "@types/qrcode-terminal": "^0.12.2"
+  },
+  "peerDependencies": {
+    "typescript": "^7"
+  },
+  "dependencies": {
+    "@ai-sdk/anthropic": "^4.0.77",
+    "@ai-sdk/google": "^4.0.92",
+    "@ai-sdk/openai": "^4.0.90",
+    "@clack/core": "^1.5.1",
+    "@clack/prompts": "^1.8.1",
+    "@langchain/core": "^1.2.17",
+    "@langchain/langgraph": "^1.4.21",
+    "@mendable/firecrawl-js": "^4.44.0",
+    "@openrouter/ai-sdk-provider": "^3.1.0",
+    "@types/node": "^26.6.2",
+    "@whiskeysockets/baileys": "^7.0.0-rc14",
+    "ai": "^7.0.126",
+    "chalk": "^6.0.1",
+    "commander": "^15.0.0",
+    "conf": "^15.1.0",
+    "diff": "^9.0.0",
+    "figlet": "^1.11.4",
+    "marked": "^18.1.0",
+    "marked-terminal": "^7.3.0",
+    "pino": "^10.4.0",
+    "qrcode-terminal": "^0.12.0",
+    "telegraf": "^4.16.3"
+  }
+}
