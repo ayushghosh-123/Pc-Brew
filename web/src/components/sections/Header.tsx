@@ -3,7 +3,7 @@
 import * as React from "react";
 import { useTheme } from "next-themes";
 import {
-  Download,
+  Terminal,
   Megaphone,
   Mic,
   FileText,
@@ -39,7 +39,7 @@ export const Header: React.FC = () => {
 
   const navLinks = [
     { label: "Product", href: "#product", active: true },
-    { label: "Install", href: "#quickstart", icon: Download },
+    { label: "Install", href: "#quickstart", icon: Terminal },
     { label: "Ecosystem", href: "#architecture" },
     { label: "Integrations", href: "#integrations" },
     { label: "Blog", href: "#blog", icon: Megaphone },

@@ -5,7 +5,6 @@ import { Header } from "@/components/sections/Header";
 import { HeroSection } from "@/components/sections/HeroSection";
 import { QuickStartSection } from "@/components/sections/QuickStartSection";
 import { TerminalSimulator } from "@/components/TerminalSimulator";
-import { TestimonialsSection } from "@/components/sections/TestimonialsSection";
 import { BlogHighlightsSection } from "@/components/sections/BlogHighlightsSection";
 import { FeatureGridSection } from "@/components/sections/FeatureGridSection";
 import { ArchitectureSection } from "@/components/ArchitectureSection";
@@ -30,14 +29,11 @@ export default function Home() {
         {/* 2 & 3. ASCII-art Hero, Eyebrow, H1, Lede, 3 CTAs */}
         <HeroSection />
 
-        {/* 4. Quick Start: Segmented tabs & 3 OS Download cards */}
+        {/* 4. Quick Start: Package manager tabs (npm, bun, pnpm, yarn, npx, source) */}
         <QuickStartSection />
 
         {/* Live Interactive Terminal Console */}
         <TerminalSimulator />
-
-        {/* 5. Testimonials: Infinite marquee */}
-        <TestimonialsSection />
 
         {/* 6. Blog Highlights: 1 featured + 2 smaller */}
         <BlogHighlightsSection />
