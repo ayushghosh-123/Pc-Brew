@@ -170,6 +170,50 @@ export class ToolExecutor {
     return `Staged folder: ${key}`;
   }
 
+  deleteFolder(rel: string): string {
+    if (this.config.tools.allowFolderDeletion === false)
+      throw new Error("Folder deletion disabled");
+    this.assertNotExcluded(rel, "delete_folder");
+    const key = this.norm(rel);
+    if (!key || key === "." || key === "/") {
+      throw new Error("Cannot delete workspace root folder");
+    }
+    const abs = this.resolveSafe(rel);
+    if (!fs.existsSync(abs)) {
+      throw new Error(`delete_folder: folder not found: ${rel}`);
+    }
+    if (!fs.statSync(abs).isDirectory()) {
+      throw new Error(`delete_folder: target is not a directory: ${rel}`);
+    }
+    for (const stagedKey of this.overlay.keys()) {
+      if (stagedKey === key || stagedKey.startsWith(`${key}/`)) {
+        this.overlay.delete(stagedKey);
+      }
+    }
+    this.tracker.log({
+      type: "folder_delete",
+      path: key,
+      details: { before: key },
+      status: "pending",
+    });
+    return `Staged folder delete: ${key}`;
+  }
+
+  moveFile(fromRel: string, toRel: string): string {
+    if (!this.config.tools.allowFileModification || !this.config.tools.allowFileCreation) {
+      throw new Error("File move disabled by policy");
+    }
+    this.assertNotExcluded(fromRel, "move_file (source)");
+    this.assertNotExcluded(toRel, "move_file (destination)");
+    const content = this.getEffectiveText(fromRel);
+    if (content === undefined) {
+      throw new Error(`move_file: source file not found: ${fromRel}`);
+    }
+    this.deleteFile(fromRel);
+    this.createFile(toRel, content);
+    return `Staged move: ${this.norm(fromRel)} -> ${this.norm(toRel)}`;
+  }
+
   listFiles(rel: string, recursive: boolean): string {
     this.assertNotExcluded(rel, "list_files");
     const abs = this.resolveSafe(rel);
@@ -398,6 +442,19 @@ export class ToolExecutor {
           const target = this.resolveSafe(p);
           fs.mkdirSync(path.dirname(target), { recursive: true });
           fs.writeFileSync(target, a.details.after ?? "", "utf8");
+        }
+      } catch (e) {
+        errors.push(String(e));
+      }
+    }
+
+    for (const a of all.filter(
+      (x) => x.type === "folder_delete" && x.status === "approved",
+    )) {
+      try {
+        const abs = this.resolveSafe(a.path);
+        if (fs.existsSync(abs)) {
+          fs.rmSync(abs, { recursive: true, force: true });
         }
       } catch (e) {
         errors.push(String(e));

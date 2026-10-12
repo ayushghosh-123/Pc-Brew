@@ -37,9 +37,20 @@ export function createAgentTools(executor: ToolExecutor) {
     delete_file: tool({
       description: "Stage deletion of a file (pending approval).",
       inputSchema: z.object({
-        path: z.string(),
+        path: z.string().describe("Relative file path to delete"),
       }),
       execute: async ({ path: p }) => executor.deleteFile(p),
+    }),
+
+    move_file: tool({
+      description:
+        "Stage moving or renaming a file from source to destination (pending approval).",
+      inputSchema: z.object({
+        from_path: z.string().describe("Current relative path of the file"),
+        to_path: z.string().describe("New relative destination path for the file"),
+      }),
+      execute: async ({ from_path, to_path }) =>
+        executor.moveFile(from_path, to_path),
     }),
 
     create_folder: tool({
@@ -49,6 +60,15 @@ export function createAgentTools(executor: ToolExecutor) {
         path: z.string().describe("Relative directory path"),
       }),
       execute: async ({ path: p }) => executor.createFolder(p),
+    }),
+
+    delete_folder: tool({
+      description:
+        "Stage deletion of a folder/directory tree (pending approval). Recursively removes the folder on apply.",
+      inputSchema: z.object({
+        path: z.string().describe("Relative directory path to delete"),
+      }),
+      execute: async ({ path: p }) => executor.deleteFolder(p),
     }),
 
     list_files: tool({

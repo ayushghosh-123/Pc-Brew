@@ -33,23 +33,26 @@
 ## 🌟 Overview
 
 `pcbrew` (PC Brew) transforms your workspace into an intelligent agentic environment and a remote-controllable workstation:
-1. **Interactive Agentic Terminal**: A local terminal REPL with autonomous AI tool loops (`read_file`, `list_files`, `search_files`, `analyze_codebase`, `create_file`, `modify_file`), an in-memory staging overlay, and unified diff approvals.
+1. **LangGraph Agentic Terminal**: A local terminal REPL powered by a compiled LangGraph `StateGraph` state machine with complete filesystem CRUD operations (`create_file`, `read_file`, `modify_file`, `delete_file`, `move_file`, `create_folder`, `delete_folder`, `list_files`, `search_files`, `analyze_codebase`, `execute_shell`), an in-memory staging overlay, and unified diff approvals.
 2. **Interactive Setup Wizard**: Run `pcbrew setup` to configure all required API keys one-by-one with automatic global persistence.
-3. **Remote Telegram Gateway**: Command your workspace remotely via Telegram with inline keyboard buttons for step toggling and code approvals.
-4. **WhatsApp Laptop Controller**: Turn your WhatsApp chat into a remote shell for your laptop—execute terminal commands (`/cmd`), view hardware telemetry (`/sysinfo`), open applications (`/open`), and approve AI code diffs on the go.
-5. **Agent Terminal Web UI**: A companion Next.js frontend built with Framer Motion, Tailwind CSS, and GSAP that simulates the agentic terminal experience.
+3. **Multi-Provider AI Intelligence**: Dynamic plug-and-play support for Anthropic Claude, OpenAI, Google Gemini, and OpenRouter with automatic provider failover.
+4. **Remote Telegram Gateway**: Command your workspace remotely via Telegram with inline keyboard buttons for step toggling and code approvals.
+5. **WhatsApp Laptop Controller**: Turn your WhatsApp chat into a remote shell for your laptop—execute terminal commands (`/cmd`), view hardware telemetry (`/sysinfo`), open applications (`/open`), and approve AI code diffs on the go.
+6. **Agent Terminal Web UI**: A companion Next.js frontend built with Framer Motion, Tailwind CSS, and GSAP that simulates the agentic terminal experience.
 
 ---
 
 ## 🚀 Key Features
 
-- **Interactive API Wizard**: Run `pcbrew setup` to configure OpenRouter, Telegram, and WhatsApp keys one by one.
+- **LangGraph State Machine**: Robust autonomous agent reasoning loop constructed with `@langchain/langgraph` `StateGraph`.
+- **Complete Filesystem CRUD**: Create, read, update, delete, and move files and directory trees safely.
+- **Interactive API Wizard**: Run `pcbrew setup` to configure OpenRouter, OpenAI, Anthropic, Gemini, Telegram, and WhatsApp keys one by one.
 - **Global CLI Availability**: Run `pcbrew` from any folder on your machine without needing a local `.env`.
 - **Virtual Memory Staging Overlay**: AI file edits are staged in memory (`ActionTracker`); zero unapproved writes touch your disk.
 - **Unified Diff Approvals**: Review color-coded diff additions (`+`) and deletions (`-`) before committing.
 - **Full Shell Remote Execution**: Execute PowerShell/Bash commands directly from WhatsApp or Telegram.
 - **Hardware Telemetry**: Query live laptop CPU load, available RAM, battery percentage, and operating system stats over chat.
-- **Multi-Model Support**: Powered by OpenRouter (supports free models, Claude 3.5 Sonnet, GPT-4o, DeepSeek, etc.).
+- **Multi-Model Support**: Powered by Anthropic Claude, OpenAI GPT-4o, Google Gemini 2.5, and OpenRouter models.
 
 ---
 

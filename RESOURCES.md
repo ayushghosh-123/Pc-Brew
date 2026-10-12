@@ -325,10 +325,49 @@ pcbrew whatsapp
 
 PC Brew never allows an AI agent to write directly to your filesystem without review:
 
-1. **Memory Isolation**: File writes (`create_file`, `modify_file`) are captured in `ActionTracker` virtual memory.
-2. **Unified Diff Generation**: A standard patch is generated showing additions in green (`+`) and deletions in red (`-`).
+1. **Memory Isolation**: File and folder mutations (`create_file`, `modify_file`, `delete_file`, `move_file`, `create_folder`, `delete_folder`) are captured in `ActionTracker` virtual memory overlay.
+2. **Unified Diff Generation**: A standard patch is generated showing additions in green (`+`) and deletions in red (`-`), with dedicated folder creation and recursive deletion confirmation.
 3. **Explicit Gate**:
-   - In CLI: User types `y` or `n`.
+   - In CLI: User types `y` or `n`, or reviews changes one-by-one.
    - In Telegram: User taps `[Accept All]` or `[Reject All]`.
    - In WhatsApp: User sends `/approve` or `/reject`.
 4. **Zero Accidental Overwrites**: If rejected, the virtual memory buffer is flushed, leaving the disk completely untouched.
+
+---
+
+## 8. LangGraph Agent Engine (`@langchain/langgraph`)
+
+Agent Mode is powered by a compiled LangGraph `StateGraph` state machine combining autonomous reasoning loops with strict safety overlays.
+
+### LangGraph State Machine Architecture
+
+```mermaid
+stateDiagram-v2
+    [*] --> START
+    START --> reasoner: Initialize messages & task goal
+    reasoner --> tools: Pending tool calls detected (step < maxSteps)
+    reasoner --> END: No tool calls / Task completed
+    tools --> reasoner: Append tool execution results (CoreToolMessage)
+    END --> human_review: ActionTracker staging overlay
+    human_review --> apply_changes: Approved by user
+    human_review --> clear_staging: Rejected by user
+    apply_changes --> [*]
+    clear_staging --> [*]
+```
+
+### Complete Filesystem CRUD Operation Matrix
+
+| Tool | Scope | Operation | Staging & Execution Policy |
+| :--- | :--- | :--- | :--- |
+| `create_file` | File | **Create** | Stages file content in-memory; created on approval |
+| `read_file` | File | **Read** | Reads text file with path-traversal & size guards |
+| `modify_file` | File | **Update** | Stages replacement content; produces unified diff |
+| `delete_file` | File | **Delete** | Stages file deletion; removed on approval |
+| `move_file` | File | **Move / Rename** | Stages source deletion + destination creation |
+| `create_folder` | Folder | **Create** | Stages directory path; runs `mkdir -p` on approval |
+| `list_files` | Folder | **Read / Browse** | Flat or recursive directory exploration |
+| `delete_folder` | Folder | **Delete** | Stages recursive folder removal (`rm -rf` on approval) |
+| `search_files` | Workspace | **Search** | Glob matching with optional content substring filter |
+| `analyze_codebase` | Workspace | **Telemetry** | Directory and file structure counts & metrics |
+| `execute_shell` | System | **Command** | Queues shell command to run after user approval |
+| `list_skills` / `read_skill` | Cursor/Claude | **Extensibility** | Reads `SKILL.md` workflows from standard skill directories |

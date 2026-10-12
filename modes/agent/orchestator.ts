@@ -4,13 +4,12 @@ import { defaultAgentConfig } from "./types";
 import { ActionTracker } from "./action-tracker";
 import { ToolExecutor } from "./too-executer";
 import { createAgentTools } from "./agent-tools";
-import { stepCountIs, ToolLoopAgent } from "ai";
-import { getAgentModel } from "../../ai";
 import { renderTerminalMarkdown } from "../../tui/terminal-md";
 import { runApprovalFlow } from "./approval";
+import { runLangGraphAgent } from "./langgraph-agent";
 
 export async function runAgentMode() {
-  console.log(chalk.bold("\n🤖 Agent Mode\n"));
+  console.log(chalk.bold("\n🤖 Agent Mode (Powered by LangGraph)\n"));
 
   const goal = await text({
     message: "What would you like the agent to do?",
@@ -24,31 +23,14 @@ export async function runAgentMode() {
   const executor = new ToolExecutor(tracker, config);
   const tools = createAgentTools(executor);
 
-  const agent = new ToolLoopAgent({
-    model: getAgentModel(),
-    stopWhen: stepCountIs(40),
-    instructions: [
-      `Workspace root: ${config.codebasePath}`,
-      "All mutations are staged until approval.",
-    ].join("\n"),
+  const result = await runLangGraphAgent({
+    goal: goal.trim(),
     tools,
+    config,
+    maxSteps: 40,
   });
 
-  const result = await agent.generate({
-    prompt: goal.trim(),
-    onStepFinish: ({ toolCalls }) => {
-      for (const tc of toolCalls) {
-        const preview = JSON.stringify(tc.input).slice(0, 160);
-        console.log(
-          chalk.green("  ✓"),
-          chalk.bold(String(tc.toolName)),
-          chalk.dim(preview + (preview.length >= 160 ? "..." : "")),
-        );
-      }
-    },
-  });
-
-  if (result.text?.trim()) console.log(renderTerminalMarkdown(result.text));
+  if (result.finalResponse?.trim()) console.log(renderTerminalMarkdown(result.finalResponse));
 
   const ok = await runApprovalFlow(tracker);
   if (!ok) return executor.clearStaging();

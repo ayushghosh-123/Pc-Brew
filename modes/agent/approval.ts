@@ -45,6 +45,15 @@ function groupPending(pending: ActionLog[]): ReviewGroup[] {
       continue;
     }
 
+    if (sorted.every((x) => x.type === "folder_delete")) {
+      groups.push({
+        label: `Delete folder: ${p} (recursive)`,
+        actionIds: ids,
+        patch: null,
+      });
+      continue;
+    }
+
     const { before, after } = composeBeforeAfter(sorted);
     const patch = formatPatch(p, before, after);
     const kinds = [...new Set(sorted.map((x) => x.type))].join(", ");

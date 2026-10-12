@@ -35,6 +35,7 @@ export interface AgentConfig {
     allowFileModification: boolean;
     allowFileCreation: boolean;
     allowFolderCreation: boolean;
+    allowFolderDeletion?: boolean;
   };
 }
 
@@ -55,6 +56,7 @@ export const defaultAgentConfig = (): AgentConfig => ({
     allowFileModification: true,
     allowFileCreation: true,
     allowFolderCreation: true,
+    allowFolderDeletion: true,
   },
 });
 
