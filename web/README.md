@@ -1,6 +1,6 @@
 # OpenClaw Design Language System for PCBREW
 
-This is a pixel-faithful, original-code recreation of the OpenClaw design language (reference: [openclaw.ai](https://openclaw.ai/)) adapted for PCBREW, maintaining dark-first developer tool aesthetics, strict tokens, zero hardcoded hex colors outside the token file, responsive layouts, and full accessibility.
+This is a pixel-faithful, original-code implementation of the OpenClaw design language (reference: [openclaw.ai](https://openclaw.ai/)) adapted for **PCBREW** — a private personal autonomous agentic coding terminal and remote laptop controller.
 
 ## File Structure
 
@@ -10,7 +10,7 @@ web/
 │   ├── app/
 │   │   ├── globals.css         # Single source of truth for tokens, themes & @theme inline
 │   │   ├── layout.tsx          # Font definition (Inter), metadata, ThemeProvider (data-theme)
-│   │   └── page.tsx            # Main landing page composing all sections
+│   │   └── page.tsx            # Main landing page composing authentic personal tool sections
 │   ├── components/
 │   │   ├── theme-provider.tsx  # next-themes wrapper with data-theme attribute
 │   │   ├── ui/                 # Token-remapped shadcn/ui primitives
@@ -20,25 +20,27 @@ web/
 │   │   │   ├── sheet.tsx       # Accessible mobile navigation drawer
 │   │   │   └── dropdown-menu.tsx
 │   │   ├── primitives/         # Reusable design system primitives
+│   │   │   ├── AsciiTorus.tsx  # 3D mathematical ASCII torus with GSAP tilt & animation controls
 │   │   │   ├── Section.tsx     # Semantic container (max-w-content 1200px / max-w-narrow)
 │   │   │   ├── SectionHeader.tsx # Display title, eyebrow, and section links
 │   │   │   ├── Eyebrow.tsx     # Monospace uppercase coral eyebrow
 │   │   │   ├── Card.tsx        # 8px radius, 1px border, interactive states
 │   │   │   ├── Pill.tsx        # 28px min-height tag pills
-│   │   │   ├── TerminalBlock.tsx # Monospace command box with prompt & copy
-│   │   │   └── Marquee.tsx     # Dual-row infinite testimonial ticker
-│   │   └── sections/           # Full-page sections
-│   │       ├── Header.tsx      # Nav, social links, theme toggle, mobile Sheet
-│   │       ├── HeroSection.tsx # ASCII-art ring, H1, lede, 3 CTAs, stats
-│   │       ├── QuickStartSection.tsx # Segmented install tabs & 3 OS cards
-│   │       ├── TestimonialsSection.tsx # Marquee testimonials
-│   │       ├── BlogHighlightsSection.tsx # 1 featured + 2 smaller cards
-│   │       ├── FeatureGridSection.tsx # 6 interactive feature cards
-│   │       ├── IntegrationsGridSection.tsx # 15 ecosystem tiles
-│   │       ├── ShowcaseSection.tsx # 4 community build cards
-│   │       ├── PressSection.tsx # 4 press mentions & 4-link row
-│   │       ├── NewsletterSection.tsx # Form, foundation text, sponsor logos
-│   │       └── FooterSection.tsx # 3 link columns, legal & copyright
+│   │   │   └── TerminalBlock.tsx # Monospace command box with prompt & copy
+│   │   ├── sections/           # Full-page layout sections
+│   │   │   ├── Header.tsx      # Workstation brand, nav links, theme toggle, mobile Sheet
+│   │   │   ├── HeroSection.tsx # 3D ASCII torus, GSAP entrance timeline, workstation CTAs
+│   │   │   ├── QuickStartSection.tsx # Real CLI workflow tabs (link, setup, start, wakeup, whatsapp, telegram)
+│   │   │   ├── FeatureGridSection.tsx # 6 core personal workstation capabilities
+│   │   │   ├── IntegrationsGridSection.tsx # 15 ecosystem runtimes, models & socket bridges
+│   │   │   └── FooterSection.tsx # Personal workstation developer footer
+│   │   ├── TerminalSimulator.tsx   # Interactive agentic terminal console
+│   │   ├── GlobalSetupGuide.tsx    # Multi-system setup guide (Windows, macOS, Linux, Binary compilation)
+│   │   ├── ArchitectureSection.tsx # LangGraph StateGraph, memory staging & diff engine
+│   │   ├── TelegramGuide.tsx       # Telegram bot pairing, inline keyboards & reviews
+│   │   ├── WhatsAppGuide.tsx       # Baileys socket, remote shell (/cmd, /sysinfo, /open)
+│   │   ├── EnvConfigurator.tsx     # Multi-provider API key wizard & conf store
+│   │   └── CommandsCheatsheet.tsx  # Comprehensive command and slash matrix
 │   └── lib/
 │       └── utils.ts            # ClassName merge helper (clsx + tailwind-merge)
 └── tailwind.config.ts          # Tailwind config exposing CSS variable tokens

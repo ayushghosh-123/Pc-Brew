@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Terminal, Package } from "lucide-react";
+import { Terminal, Shield, Cpu, MessageSquare, Wrench } from "lucide-react";
 import { Section } from "@/components/primitives/Section";
 import { SectionHeader } from "@/components/primitives/SectionHeader";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -14,85 +14,85 @@ export const QuickStartSection: React.FC = () => {
       <SectionHeader
         eyebrow="Quick Start"
         title="Get PCBREW running in seconds."
-        description="Install the CLI globally with your preferred package manager, or run it directly with npx."
-        actionText="View Documentation"
-        actionHref="#docs"
+        description="Link the CLI binary globally to command your workstation, run the interactive setup wizard, and launch remote gateways."
+        actionText="View Multi-System Setup"
+        actionHref="#setup"
       />
 
-      {/* Segmented Tabs for Package Managers */}
-      <Tabs defaultValue="npm" className="w-full">
+      {/* Segmented Tabs for CLI Workflows */}
+      <Tabs defaultValue="link" className="w-full">
         <div className="flex items-center justify-between flex-wrap gap-4 mb-4">
           <TabsList>
-            <TabsTrigger value="npm">npm</TabsTrigger>
-            <TabsTrigger value="bun">bun</TabsTrigger>
-            <TabsTrigger value="pnpm">pnpm</TabsTrigger>
-            <TabsTrigger value="yarn">yarn</TabsTrigger>
-            <TabsTrigger value="npx">npx</TabsTrigger>
-            <TabsTrigger value="source">From Source</TabsTrigger>
+            <TabsTrigger value="link">1. Global Link</TabsTrigger>
+            <TabsTrigger value="setup">2. Setup Wizard</TabsTrigger>
+            <TabsTrigger value="start">3. Agent Terminal</TabsTrigger>
+            <TabsTrigger value="wakeup">4. Mode Selector</TabsTrigger>
+            <TabsTrigger value="whatsapp">5. WhatsApp Gateway</TabsTrigger>
+            <TabsTrigger value="telegram">6. Telegram Bot</TabsTrigger>
           </TabsList>
 
           <span className="font-mono text-xs text-muted hidden sm:inline-block">
-            Node.js 18+ or Bun required
+            Bun or Node.js required
           </span>
         </div>
 
-        {/* 1. npm tab */}
-        <TabsContent value="npm" className="space-y-3">
+        {/* 1. Global Link tab */}
+        <TabsContent value="link" className="space-y-3">
           <TerminalBlock
-            comment="Install pcbrew globally via npm"
-            command="npm install -g pcbrew"
-            secondaryComment="Run the interactive onboarding configuration wizard"
-            secondaryCommand="pcbrew setup"
+            comment="Link the local repository globally into your system PATH (PowerShell / Bash)"
+            command="npm link --force"
+            secondaryComment="Verify global availability from any directory on your computer"
+            secondaryCommand="pcbrew --version"
           />
         </TabsContent>
 
-        {/* 2. bun tab */}
-        <TabsContent value="bun" className="space-y-3">
+        {/* 2. Setup Wizard tab */}
+        <TabsContent value="setup" className="space-y-3">
           <TerminalBlock
-            comment="Install globally using Bun"
-            command="bun add -g pcbrew"
-            secondaryComment="Run the interactive onboarding configuration wizard"
-            secondaryCommand="pcbrew setup"
+            comment="Launch interactive step-by-step configuration wizard"
+            command="pcbrew setup"
+            secondaryComment="Prompts one-by-one for OpenRouter, model ID, Telegram, and WhatsApp keys"
+            secondaryCommand="pcbrew config"
           />
         </TabsContent>
 
-        {/* 3. pnpm tab */}
-        <TabsContent value="pnpm" className="space-y-3">
+        {/* 3. Agent Terminal tab */}
+        <TabsContent value="start" className="space-y-3">
           <TerminalBlock
-            comment="Install globally using pnpm"
-            command="pnpm add -g pcbrew"
-            secondaryComment="Run the interactive onboarding configuration wizard"
-            secondaryCommand="pcbrew setup"
+            comment="Launch the LangGraph autonomous terminal REPL in current directory"
+            command="pcbrew start"
+            secondaryComment="Executes multi-step tasks with filesystem CRUD and in-memory diff staging"
+            secondaryCommand="pcbrew"
           />
         </TabsContent>
 
-        {/* 4. yarn tab */}
-        <TabsContent value="yarn" className="space-y-3">
+        {/* 4. Wakeup tab */}
+        <TabsContent value="wakeup" className="space-y-3">
           <TerminalBlock
-            comment="Install globally using Yarn"
-            command="yarn global add pcbrew"
-            secondaryComment="Run the interactive onboarding configuration wizard"
-            secondaryCommand="pcbrew setup"
+            comment="Interactive mode selector (Agent, Ask, Plan, Telegram, WhatsApp)"
+            command="pcbrew wakeup"
+            secondaryComment="Execute a task immediately with the wakeup prompt"
+            secondaryCommand='pcbrew wakeup "Audit package.json dependencies and run build"'
           />
         </TabsContent>
 
-        {/* 5. npx tab */}
-        <TabsContent value="npx" className="space-y-3">
+        {/* 5. WhatsApp tab */}
+        <TabsContent value="whatsapp" className="space-y-3">
           <TerminalBlock
-            comment="Run directly without permanent global installation"
-            command="npx pcbrew setup"
-            secondaryComment="Or execute a task immediately"
-            secondaryCommand='npx pcbrew wakeup "Check system status"'
+            comment="Start WhatsApp remote laptop controller (scans QR code on first run)"
+            command="pcbrew whatsapp"
+            secondaryComment="Remotely run /cmd, /sysinfo, /open, and approve diffs from your phone"
+            secondaryCommand="bun run index.ts whatsapp"
           />
         </TabsContent>
 
-        {/* 6. From Source tab */}
-        <TabsContent value="source" className="space-y-3">
+        {/* 6. Telegram tab */}
+        <TabsContent value="telegram" className="space-y-3">
           <TerminalBlock
-            comment="Clone repository and link local workspace for source hacking"
-            command="git clone https://github.com/pcbrew/pcbrew.git && cd pcbrew"
-            secondaryComment="Install dependencies and link CLI binary into your PATH"
-            secondaryCommand="bun install && npm link --force"
+            comment="Start Telegram bot gateway with inline review buttons"
+            command="pcbrew telegram"
+            secondaryComment="Receive diff notifications and approve code execution remotely"
+            secondaryCommand="bun run index.ts telegram"
           />
         </TabsContent>
       </Tabs>
@@ -105,14 +105,14 @@ export const QuickStartSection: React.FC = () => {
               <span className="flex h-6 w-6 items-center justify-center rounded-full bg-accent-soft text-coral font-mono text-xs font-bold">
                 1
               </span>
-              <span className="font-display text-base font-bold text-primary">Install CLI</span>
+              <span className="font-display text-base font-bold text-primary">Global Link</span>
             </div>
             <p className="text-xs text-secondary leading-relaxed">
-              Install the lightweight npm package globally on macOS, Linux, or Windows.
+              Link the CLI once via <code className="text-coral">npm link --force</code>. Available globally in every terminal window.
             </p>
           </div>
           <div className="mt-4 font-mono text-[11px] text-muted bg-surface px-3 py-2 rounded-[6px] border border-border-subtle">
-            npm i -g pcbrew
+            npm link --force
           </div>
         </Card>
 
@@ -122,10 +122,10 @@ export const QuickStartSection: React.FC = () => {
               <span className="flex h-6 w-6 items-center justify-center rounded-full bg-accent-soft text-coral font-mono text-xs font-bold">
                 2
               </span>
-              <span className="font-display text-base font-bold text-primary">Run Setup</span>
+              <span className="font-display text-base font-bold text-primary">Setup Wizard</span>
             </div>
             <p className="text-xs text-secondary leading-relaxed">
-              Launch the wizard to configure your preferred LLM provider (OpenAI, Anthropic, Gemini, Groq).
+              Configure your API keys one-by-one with persistent local config store (<code className="text-coral">conf</code>).
             </p>
           </div>
           <div className="mt-4 font-mono text-[11px] text-muted bg-surface px-3 py-2 rounded-[6px] border border-border-subtle">
@@ -139,14 +139,14 @@ export const QuickStartSection: React.FC = () => {
               <span className="flex h-6 w-6 items-center justify-center rounded-full bg-accent-soft text-coral font-mono text-xs font-bold">
                 3
               </span>
-              <span className="font-display text-base font-bold text-primary">Connect & Control</span>
+              <span className="font-display text-base font-bold text-primary">Agent or Remote</span>
             </div>
             <p className="text-xs text-secondary leading-relaxed">
-              Control tasks locally or link your Telegram and WhatsApp bots for remote command execution.
+              Run <code className="text-coral">pcbrew start</code> for the terminal REPL or <code className="text-coral">pcbrew whatsapp</code> for remote control.
             </p>
           </div>
           <div className="mt-4 font-mono text-[11px] text-muted bg-surface px-3 py-2 rounded-[6px] border border-border-subtle">
-            pcbrew telegram | whatsapp
+            pcbrew start | whatsapp
           </div>
         </Card>
       </div>

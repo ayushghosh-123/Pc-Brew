@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Coffee, Github, MessageSquare, Twitter } from "lucide-react";
+import { Coffee, Terminal, Cpu, ShieldCheck } from "lucide-react";
 import { Section } from "@/components/primitives/Section";
 
 export const FooterSection: React.FC = () => {
@@ -18,126 +18,62 @@ export const FooterSection: React.FC = () => {
               <span>PCBREW</span>
             </div>
             <p className="text-muted text-xs leading-relaxed max-w-xs">
-              Autonomous agentic terminal & remote laptop controller running on your machine.
+              Autonomous agentic coding terminal & remote laptop controller running 100% on your local machine.
             </p>
-            <div className="flex items-center gap-2 pt-2">
-              <a
-                href="https://github.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="GitHub repository"
-                className="h-7 w-7 rounded-[4px] border border-border-subtle bg-card flex items-center justify-center text-muted hover:text-primary transition-colors"
-              >
-                <Github className="h-3.5 w-3.5" />
-              </a>
-              <a
-                href="https://discord.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Discord community"
-                className="h-7 w-7 rounded-[4px] border border-border-subtle bg-card flex items-center justify-center text-muted hover:text-primary transition-colors"
-              >
-                <MessageSquare className="h-3.5 w-3.5" />
-              </a>
-              <a
-                href="https://x.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="X / Twitter"
-                className="h-7 w-7 rounded-[4px] border border-border-subtle bg-card flex items-center justify-center text-muted hover:text-primary transition-colors"
-              >
-                <Twitter className="h-3.5 w-3.5" />
-              </a>
+            <div className="flex items-center gap-2 pt-1 font-mono text-[11px] text-coral">
+              <Terminal className="h-3.5 w-3.5" />
+              <span>pcbrew start | wakeup</span>
             </div>
           </div>
 
-          {/* Col 1: Product */}
+          {/* Col 1: Terminal & Setup */}
           <div>
             <h4 className="font-mono text-xs font-[700] uppercase text-coral mb-3 tracking-wider">
-              Product
+              Terminal
             </h4>
             <ul className="space-y-2 text-xs font-mono text-muted">
               <li>
                 <a href="#quickstart" className="hover:text-primary transition-colors">
-                  Install
+                  Quick Start & Link
                 </a>
               </li>
               <li>
                 <a href="#simulator" className="hover:text-primary transition-colors">
-                  Terminal Simulator
+                  Interactive Simulator
+                </a>
+              </li>
+              <li>
+                <a href="#setup" className="hover:text-primary transition-colors">
+                  Multi-System Setup
                 </a>
               </li>
               <li>
                 <a href="#features" className="hover:text-primary transition-colors">
-                  Features
-                </a>
-              </li>
-              <li>
-                <a href="#showcase" className="hover:text-primary transition-colors">
-                  Showcase
-                </a>
-              </li>
-              <li>
-                <a href="#integrations" className="hover:text-primary transition-colors">
-                  Integrations
+                  Core Capabilities
                 </a>
               </li>
             </ul>
           </div>
 
-          {/* Col 2: Resources */}
+          {/* Col 2: Gateways & Tools */}
           <div>
             <h4 className="font-mono text-xs font-[700] uppercase text-coral mb-3 tracking-wider">
-              Resources
+              Gateways
             </h4>
             <ul className="space-y-2 text-xs font-mono text-muted">
               <li>
-                <a href="#setup" className="hover:text-primary transition-colors">
-                  Setup Guide
+                <a href="#whatsapp" className="hover:text-primary transition-colors">
+                  WhatsApp Laptop Controller
                 </a>
               </li>
               <li>
                 <a href="#telegram" className="hover:text-primary transition-colors">
-                  Telegram Bot Guide
-                </a>
-              </li>
-              <li>
-                <a href="#whatsapp" className="hover:text-primary transition-colors">
-                  WhatsApp Bridge Guide
+                  Telegram Review Bot
                 </a>
               </li>
               <li>
                 <a href="#env-config" className="hover:text-primary transition-colors">
-                  Configurator Tool
-                </a>
-              </li>
-              <li>
-                <a href="#blog" className="hover:text-primary transition-colors">
-                  Engineering Blog
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Col 3: Project */}
-          <div>
-            <h4 className="font-mono text-xs font-[700] uppercase text-coral mb-3 tracking-wider">
-              Project
-            </h4>
-            <ul className="space-y-2 text-xs font-mono text-muted">
-              <li>
-                <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">
-                  GitHub Repository
-                </a>
-              </li>
-              <li>
-                <a href="#press" className="hover:text-primary transition-colors">
-                  Press & Shoutouts
-                </a>
-              </li>
-              <li>
-                <a href="#architecture" className="hover:text-primary transition-colors">
-                  System Architecture
+                  Environment Configurator
                 </a>
               </li>
               <li>
@@ -145,9 +81,33 @@ export const FooterSection: React.FC = () => {
                   Commands Matrix
                 </a>
               </li>
+            </ul>
+          </div>
+
+          {/* Col 3: Architecture */}
+          <div>
+            <h4 className="font-mono text-xs font-[700] uppercase text-coral mb-3 tracking-wider">
+              Architecture
+            </h4>
+            <ul className="space-y-2 text-xs font-mono text-muted">
               <li>
-                <a href="#" className="hover:text-primary transition-colors">
-                  MIT License
+                <a href="#architecture" className="hover:text-primary transition-colors">
+                  LangGraph State Machine
+                </a>
+              </li>
+              <li>
+                <a href="#architecture" className="hover:text-primary transition-colors">
+                  In-Memory Virtual Staging
+                </a>
+              </li>
+              <li>
+                <a href="#integrations" className="hover:text-primary transition-colors">
+                  Multi-Model SDK Layer
+                </a>
+              </li>
+              <li>
+                <a href="#architecture" className="hover:text-primary transition-colors">
+                  Unified Diff Approvals
                 </a>
               </li>
             </ul>
@@ -156,11 +116,13 @@ export const FooterSection: React.FC = () => {
 
         {/* Bottom Bar */}
         <div className="pt-6 border-t border-border-subtle/50 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-muted font-mono">
-          <p>© 2026 PCBREW. Open-source assistant & terminal infrastructure.</p>
+          <p>© 2026 PCBREW. Personal workstation automation & agentic runtime.</p>
           <div className="flex items-center gap-4">
-            <span className="text-secondary">MIT Licensed</span>
+            <span className="text-secondary">Local Execution</span>
             <span>·</span>
-            <span className="text-sea-green">Privacy-Preserving</span>
+            <span className="text-sea-green">Zero Telemetry</span>
+            <span>·</span>
+            <span className="text-coral">Private Keys</span>
           </div>
         </div>
       </Section>

@@ -4,16 +4,18 @@ import * as React from "react";
 import { useTheme } from "next-themes";
 import {
   Terminal,
-  Megaphone,
-  Mic,
   FileText,
   Menu,
   Sun,
   Moon,
   Github,
-  MessageSquare,
-  Twitter,
   Coffee,
+  Cpu,
+  Layers,
+  Send,
+  Smartphone,
+  Sliders,
+  HelpCircle,
 } from "lucide-react";
 import {
   Sheet,
@@ -38,13 +40,13 @@ export const Header: React.FC = () => {
   };
 
   const navLinks = [
-    { label: "Product", href: "#product", active: true },
-    { label: "Install", href: "#quickstart", icon: Terminal },
-    { label: "Ecosystem", href: "#architecture" },
-    { label: "Integrations", href: "#integrations" },
-    { label: "Blog", href: "#blog", icon: Megaphone },
-    { label: "Podcast", href: "#press", icon: Mic },
-    { label: "Docs", href: "#docs", icon: FileText, external: true },
+    { label: "Simulator", href: "#simulator", icon: Terminal, active: true },
+    { label: "Quickstart", href: "#quickstart" },
+    { label: "Architecture", href: "#architecture", icon: Layers },
+    { label: "Telegram", href: "#telegram", icon: Send },
+    { label: "WhatsApp", href: "#whatsapp", icon: Smartphone },
+    { label: "Config", href: "#env-config", icon: Sliders },
+    { label: "Cheatsheet", href: "#cheatsheet", icon: FileText },
   ];
 
   return (
@@ -61,14 +63,14 @@ export const Header: React.FC = () => {
           <span>PCBREW</span>
           <span className="hidden sm:inline-flex items-center gap-1 rounded-[4px] border border-status-success/30 bg-status-success/10 px-1.5 py-0.5 font-mono text-[10px] font-bold text-status-success">
             <span className="h-1.5 w-1.5 rounded-full bg-status-success animate-pulse" />
-            v1.0.0
+            personal
           </span>
         </a>
 
         {/* Desktop Nav */}
         <nav
           aria-label="Main Navigation"
-          className="hidden md:flex items-center gap-5 font-mono text-xs font-[500]"
+          className="hidden lg:flex items-center gap-5 font-mono text-xs font-[500]"
         >
           {navLinks.map((item) => {
             const Icon = item.icon;
@@ -87,41 +89,8 @@ export const Header: React.FC = () => {
           })}
         </nav>
 
-        {/* Right controls: Social Icons, Theme Toggle, Mobile Sheet Trigger */}
+        {/* Right controls: Theme Toggle, Mobile Sheet Trigger */}
         <div className="flex items-center gap-2">
-          {/* Social Links */}
-          <div className="hidden sm:flex items-center gap-1">
-            <a
-              href="https://github.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="GitHub repository"
-              className="flex h-8 w-8 items-center justify-center rounded-[6px] text-muted hover:bg-interactive hover:text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring"
-            >
-              <Github className="h-4 w-4" />
-            </a>
-            <a
-              href="https://discord.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Discord community"
-              className="flex h-8 w-8 items-center justify-center rounded-[6px] text-muted hover:bg-interactive hover:text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring"
-            >
-              <MessageSquare className="h-4 w-4" />
-            </a>
-            <a
-              href="https://x.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="X / Twitter profile"
-              className="flex h-8 w-8 items-center justify-center rounded-[6px] text-muted hover:bg-interactive hover:text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring"
-            >
-              <Twitter className="h-4 w-4" />
-            </a>
-          </div>
-
-          <div className="h-4 w-px bg-border-subtle hidden sm:block mx-1" />
-
           {/* Theme Toggle Button */}
           {mounted && (
             <button
@@ -140,7 +109,7 @@ export const Header: React.FC = () => {
           )}
 
           {/* Mobile Nav Sheet */}
-          <div className="md:hidden">
+          <div className="lg:hidden">
             <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
               <SheetTrigger asChild>
                 <Button
@@ -178,33 +147,6 @@ export const Header: React.FC = () => {
                     );
                   })}
                 </nav>
-
-                <div className="border-t border-border-subtle mt-8 pt-6 flex items-center gap-3">
-                  <a
-                    href="https://github.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-2 rounded-[6px] text-muted hover:text-primary hover:bg-interactive"
-                  >
-                    <Github className="h-5 w-5" />
-                  </a>
-                  <a
-                    href="https://discord.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-2 rounded-[6px] text-muted hover:text-primary hover:bg-interactive"
-                  >
-                    <MessageSquare className="h-5 w-5" />
-                  </a>
-                  <a
-                    href="https://x.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-2 rounded-[6px] text-muted hover:text-primary hover:bg-interactive"
-                  >
-                    <Twitter className="h-5 w-5" />
-                  </a>
-                </div>
               </SheetContent>
             </Sheet>
           </div>

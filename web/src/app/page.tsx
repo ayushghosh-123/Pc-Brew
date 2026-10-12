@@ -4,8 +4,8 @@ import * as React from "react";
 import { Header } from "@/components/sections/Header";
 import { HeroSection } from "@/components/sections/HeroSection";
 import { QuickStartSection } from "@/components/sections/QuickStartSection";
+import { GlobalSetupGuide } from "@/components/GlobalSetupGuide";
 import { TerminalSimulator } from "@/components/TerminalSimulator";
-import { BlogHighlightsSection } from "@/components/sections/BlogHighlightsSection";
 import { FeatureGridSection } from "@/components/sections/FeatureGridSection";
 import { ArchitectureSection } from "@/components/ArchitectureSection";
 import { IntegrationsGridSection } from "@/components/sections/IntegrationsGridSection";
@@ -13,63 +13,51 @@ import { TelegramGuide } from "@/components/TelegramGuide";
 import { WhatsAppGuide } from "@/components/WhatsAppGuide";
 import { EnvConfigurator } from "@/components/EnvConfigurator";
 import { CommandsCheatsheet } from "@/components/CommandsCheatsheet";
-import { ShowcaseSection } from "@/components/sections/ShowcaseSection";
-import { PressSection } from "@/components/sections/PressSection";
-import { NewsletterSection } from "@/components/sections/NewsletterSection";
 import { FooterSection } from "@/components/sections/FooterSection";
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-page text-primary flex flex-col font-sans selection:bg-selection selection:text-primary">
-      {/* 1. Header with logo, nav, social icons, theme toggle, and mobile Sheet nav */}
+      {/* 1. Header with logo, workstation nav, theme toggle, and mobile Sheet nav */}
       <Header />
 
-      {/* Main Content Sections */}
+      {/* Main Workstation Sections */}
       <main className="flex-1 w-full">
-        {/* 2 & 3. ASCII-art Hero, Eyebrow, H1, Lede, 3 CTAs */}
+        {/* 2. Hero: 3D ASCII-art Torus with GSAP animations & workstation copy */}
         <HeroSection />
 
-        {/* 4. Quick Start: Package manager tabs (npm, bun, pnpm, yarn, npx, source) */}
+        {/* 3. Quick Start: Real CLI workflow tabs (link, setup, start, wakeup, whatsapp, telegram) */}
         <QuickStartSection />
 
-        {/* Live Interactive Terminal Console */}
+        {/* 4. Global Multi-System Setup Guide (Windows, macOS, Linux, Binary compilation) */}
+        <GlobalSetupGuide />
+
+        {/* 5. Live Interactive Agentic Terminal Simulator */}
         <TerminalSimulator />
 
-        {/* 6. Blog Highlights: 1 featured + 2 smaller */}
-        <BlogHighlightsSection />
-
-        {/* 7. Feature Grid: 6 interactive cards */}
+        {/* 6. Feature Grid: 6 core capabilities */}
         <FeatureGridSection />
 
-        {/* Architecture & Multi-Mode Execution Lifecycle */}
+        {/* 7. Architecture & StateGraph Multi-Mode Execution Lifecycle */}
         <ArchitectureSection />
 
-        {/* 8. Integrations Grid: 15 interactive tiles */}
+        {/* 8. Integrations Grid: 15 ecosystem runtimes, models & socket bridges */}
         <IntegrationsGridSection />
 
-        {/* Telegram Interactive Gateway Guide */}
+        {/* 9. Telegram Remote Review Gateway Guide */}
         <TelegramGuide />
 
-        {/* WhatsApp Remote Shell Controller Guide */}
+        {/* 10. WhatsApp Remote Laptop Controller Guide */}
         <WhatsAppGuide />
 
-        {/* Multi-Provider Environment Configurator */}
+        {/* 11. Multi-Provider Environment Configurator & Conf Storage */}
         <EnvConfigurator />
 
-        {/* Unified Commands Matrix */}
+        {/* 12. Unified Commands & Slash Keyboards Matrix */}
         <CommandsCheatsheet />
-
-        {/* 9. Showcase: Community Builds */}
-        <ShowcaseSection />
-
-        {/* 10. Press: Featured in developer media & 4-link row */}
-        <PressSection />
-
-        {/* 11. Newsletter, Foundation text & Sponsor logos */}
-        <NewsletterSection />
       </main>
 
-      {/* Footer with 3 link columns */}
+      {/* 13. Focused Personal Workstation Footer */}
       <FooterSection />
     </div>
   );

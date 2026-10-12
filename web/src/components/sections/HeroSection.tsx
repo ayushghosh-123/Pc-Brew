@@ -106,7 +106,7 @@ export const HeroSection: React.FC = () => {
         {/* Eyebrow */}
         <div ref={eyebrowRef}>
           <Eyebrow className="mb-4">
-            Open Source · Autonomous Coding Terminal · Remote Laptop Controller
+            Personal Workstation Agent · Autonomous Coding Terminal · Remote Laptop Controller
           </Eyebrow>
         </div>
 
@@ -133,10 +133,10 @@ export const HeroSection: React.FC = () => {
           ref={subtextRef}
           className="mt-3 text-xs sm:text-sm text-muted italic max-w-[42rem] mx-auto"
         >
-          No mandatory hosted tier. No telemetry lock. MIT licensed.
+          Private local execution. Zero telemetry. 100% on your machine.
           <br />
           <span className="font-mono font-bold not-italic text-coral text-[12px] tracking-wider uppercase mt-1 inline-block">
-            Your machine. Your API keys. Your local files. Your rules.
+            Your workstation. Your API keys. Your local files. Your rules.
           </span>
         </p>
 
