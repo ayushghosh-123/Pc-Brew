@@ -1,8 +1,12 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import * as React from "react";
 import { motion } from "framer-motion";
-import { Sparkles, RotateCcw, Cpu, ShieldAlert, Check, X, Play, Coffee } from "lucide-react";
+import { RotateCcw, Cpu, ShieldAlert, Check, X, Play, Coffee } from "lucide-react";
+import { Section } from "@/components/primitives/Section";
+import { SectionHeader } from "@/components/primitives/SectionHeader";
+import { Card } from "@/components/primitives/Card";
+import { Button } from "@/components/ui/button";
 
 interface TerminalLine {
   id: string;
@@ -28,8 +32,8 @@ const ASCII_BANNER = `
 `;
 
 export const TerminalSimulator: React.FC = () => {
-  const [inputVal, setInputVal] = useState("");
-  const [history, setHistory] = useState<TerminalLine[]>([
+  const [inputVal, setInputVal] = React.useState("");
+  const [history, setHistory] = React.useState<TerminalLine[]>([
     {
       id: "init-banner",
       type: "system",
@@ -38,17 +42,18 @@ export const TerminalSimulator: React.FC = () => {
     {
       id: "init-welcome",
       type: "system",
-      content: "☕ PC Brew Agentic Terminal initialized • Ready for commands\n✦ Type /help or click any preset below to test autonomous workflows.\n✦ Type /config to run the interactive step-by-step API setup wizard.",
+      content:
+        "PC BREW Agentic Terminal initialized • Ready for commands\n✦ Type /help or click any preset below to test autonomous workflows.\n✦ Type /config to run the interactive step-by-step API setup wizard.",
     },
   ]);
-  const [isProcessing, setIsProcessing] = useState(false);
-  const terminalEndRef = useRef<HTMLDivElement>(null);
+  const [isProcessing, setIsProcessing] = React.useState(false);
+  const terminalEndRef = React.useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
     terminalEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     scrollToBottom();
   }, [history]);
 
@@ -56,7 +61,6 @@ export const TerminalSimulator: React.FC = () => {
     const trimmed = cmdText.trim();
     if (!trimmed) return;
 
-    // Add user input to history
     const userLine: TerminalLine = {
       id: `usr-${Date.now()}`,
       type: "input",
@@ -101,7 +105,12 @@ export const TerminalSimulator: React.FC = () => {
       return;
     }
 
-    if (lower === "/config" || lower === "config" || lower === "/setup" || lower === "setup") {
+    if (
+      lower === "/config" ||
+      lower === "config" ||
+      lower === "/setup" ||
+      lower === "setup"
+    ) {
       setHistory((prev) => [
         ...prev,
         {
@@ -123,7 +132,9 @@ export const TerminalSimulator: React.FC = () => {
     }
 
     if (lower.startsWith("/plan") || lower.startsWith("plan")) {
-      const goal = cmd.replace(/^(\/plan|plan)\s*/, "").trim() || "Automated Resume Matcher & Scraper";
+      const goal =
+        cmd.replace(/^(\/plan|plan)\s*/, "").trim() ||
+        "Automated Resume Matcher & Scraper";
       setHistory((prev) => [
         ...prev,
         {
@@ -132,10 +143,30 @@ export const TerminalSimulator: React.FC = () => {
           planData: {
             goal,
             steps: [
-              { id: "S1", title: "Target Architecture", desc: "Scan job listings schema and config", selected: true },
-              { id: "S2", title: "Web Discovery", desc: "Invoke Firecrawl scrape tool for portal listings", selected: true },
-              { id: "S3", title: "AI Filtering", desc: "Pass raw requirements to OpenRouter LLM", selected: true },
-              { id: "S4", title: "Telegram Dispatch", desc: "Push ranked matches to Telegram bot with alert button", selected: true },
+              {
+                id: "S1",
+                title: "Target Architecture",
+                desc: "Scan job listings schema and config",
+                selected: true,
+              },
+              {
+                id: "S2",
+                title: "Web Discovery",
+                desc: "Invoke Firecrawl scrape tool for portal listings",
+                selected: true,
+              },
+              {
+                id: "S3",
+                title: "AI Filtering",
+                desc: "Pass raw requirements to OpenRouter LLM",
+                selected: true,
+              },
+              {
+                id: "S4",
+                title: "Telegram Dispatch",
+                desc: "Push ranked matches to Telegram bot with alert button",
+                selected: true,
+              },
             ],
           },
         },
@@ -209,8 +240,13 @@ PC Brew uses a clean decoupled architecture:
       return;
     }
 
-    if (lower.startsWith("/cmd") || lower.startsWith("$") || lower.startsWith("cmd")) {
-      const execStr = cmd.replace(/^(\/cmd|\$|cmd)\s*/, "").trim() || "dir";
+    if (
+      lower.startsWith("/cmd") ||
+      lower.startsWith("$") ||
+      lower.startsWith("cmd")
+    ) {
+      const execStr =
+        cmd.replace(/^(\/cmd|\$|cmd)\s*/, "").trim() || "dir";
       setHistory((prev) => [
         ...prev,
         {
@@ -243,185 +279,189 @@ Selected: Agentic Terminal active.`,
       return;
     }
 
-    // Default response
     setHistory((prev) => [
       ...prev,
       {
         id: `def-${Date.now()}`,
         type: "output",
-        content: `Executed prompt via OpenRouter:
-"${cmd}"
-Agent processed instructions successfully. Type /help to see specialized commands.`,
+        content: `Executed: "${cmd}"
+Use /help to see all commands or /config to test API settings.`,
       },
     ]);
   };
 
   const handleApproveDiff = (id: string) => {
-    setHistory((prev) =>
-      prev.map((item) =>
-        item.id === id
-          ? {
-              ...item,
-              type: "output",
-              content: "✅ Staged patch approved! Unified diff committed to disk safely.",
-            }
-          : item
-      )
-    );
+    setHistory((prev) => [
+      ...prev.filter((i) => i.id !== id),
+      {
+        id: `approved-${Date.now()}`,
+        type: "output",
+        content: `✅ Diff approved by user! Committed patch to modes/agent/too-executer.ts [2 additions, 2 deletions]. Filesystem updated.`,
+      },
+    ]);
   };
 
   const handleRejectDiff = (id: string) => {
-    setHistory((prev) =>
-      prev.map((item) =>
-        item.id === id
-          ? {
-              ...item,
-              type: "output",
-              content: "❌ Staged patch rejected. Overlay buffer cleared without disk mutations.",
-            }
-          : item
-      )
-    );
+    setHistory((prev) => [
+      ...prev.filter((i) => i.id !== id),
+      {
+        id: `rejected-${Date.now()}`,
+        type: "output",
+        content: `❌ Diff rejected and discarded from virtual memory. Local files remained completely untouched.`,
+      },
+    ]);
   };
 
   return (
-    <section id="simulator" className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-      {/* Section Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 pb-4 border-b border-agent-border/60">
+    <Section id="simulator" className="py-16 border-b border-border-subtle">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
         <div>
-          <div className="flex items-center space-x-2 text-agent-accent font-mono text-xs uppercase tracking-wider mb-1">
-            <Sparkles className="w-4 h-4 text-agent-accentBright animate-pulse" />
-            <span>Interactive Terminal Sandbox</span>
-          </div>
-          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight font-mono text-white">
-            PC BREW <span className="text-agent-accent">// AGENTIC TERMINAL SIMULATOR</span>
+          <span className="font-mono text-xs font-[700] uppercase tracking-wider text-coral block mb-1">
+            Live Console
+          </span>
+          <h2 className="font-display font-[750] text-2xl sm:text-3xl text-primary leading-tight">
+            Interactive Agent Terminal
           </h2>
+          <p className="text-secondary text-sm mt-1 max-w-[60ch]">
+            Test autonomous agent reasoning, interactive diff approvals, and plan generation directly in your browser.
+          </p>
         </div>
-        <div className="mt-3 sm:mt-0 flex items-center space-x-2">
-          <button
-            onClick={() => handleCommand("/clear")}
-            className="px-3 py-1.5 text-xs font-mono rounded bg-agent-card hover:bg-agent-card/80 border border-agent-border text-slate-300 flex items-center space-x-1.5 transition-colors"
-          >
-            <RotateCcw className="w-3.5 h-3.5 text-agent-dim" />
-            <span>Clear Buffer</span>
-          </button>
-        </div>
+
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => handleCommand("/clear")}
+          className="self-start sm:self-auto gap-1.5 font-mono text-xs"
+        >
+          <RotateCcw className="h-3.5 w-3.5 text-muted" />
+          <span>Clear Buffer</span>
+        </Button>
       </div>
 
-      {/* Preset Quick Chips */}
-      <div className="mb-4 flex flex-wrap items-center gap-2 text-xs font-mono">
-        <span className="text-agent-dim mr-1">Quick Run:</span>
+      {/* Quick Chips */}
+      <div className="mb-4 flex flex-wrap items-center gap-2 font-mono text-xs">
+        <span className="text-muted mr-1">Quick Run:</span>
         <button
+          type="button"
           onClick={() => handleCommand("/config")}
-          className="px-2.5 py-1 rounded bg-agent-card border border-agent-border hover:border-agent-purple text-slate-300 hover:text-agent-purple transition-all"
+          className="px-2.5 py-1 rounded-[4px] border border-border-subtle bg-card hover:bg-surface hover:border-coral text-secondary hover:text-primary transition-all"
         >
           ⚙️ /config (API Setup)
         </button>
         <button
+          type="button"
           onClick={() => handleCommand("/agent Optimize error handling")}
-          className="px-2.5 py-1 rounded bg-agent-card border border-agent-border hover:border-agent-accent text-slate-300 hover:text-agent-accentBright transition-all"
+          className="px-2.5 py-1 rounded-[4px] border border-border-subtle bg-card hover:bg-surface hover:border-coral text-secondary hover:text-coral transition-all"
         >
           ⚡ /agent (Staged Diff)
         </button>
         <button
+          type="button"
           onClick={() => handleCommand("/plan Build remote WhatsApp controller")}
-          className="px-2.5 py-1 rounded bg-agent-card border border-agent-border hover:border-agent-cyan text-slate-300 hover:text-agent-cyan transition-all"
+          className="px-2.5 py-1 rounded-[4px] border border-border-subtle bg-card hover:bg-surface hover:border-sea-green text-secondary hover:text-sea-green transition-all"
         >
           📋 /plan (Execution Roadmap)
         </button>
         <button
-          onClick={() => handleCommand("/ask How does authorization work in Telegram and WhatsApp?")}
-          className="px-2.5 py-1 rounded bg-agent-card border border-agent-border hover:border-agent-green text-slate-300 hover:text-agent-green transition-all"
+          type="button"
+          onClick={() =>
+            handleCommand(
+              "/ask How does authorization work in Telegram and WhatsApp?"
+            )
+          }
+          className="px-2.5 py-1 rounded-[4px] border border-border-subtle bg-card hover:bg-surface hover:border-coral text-secondary hover:text-primary transition-all"
         >
           🧠 /ask (Codebase Q&A)
         </button>
         <button
+          type="button"
           onClick={() => handleCommand("/sysinfo")}
-          className="px-2.5 py-1 rounded bg-agent-card border border-agent-border hover:border-agent-purple text-slate-300 hover:text-agent-purple transition-all"
+          className="px-2.5 py-1 rounded-[4px] border border-border-subtle bg-card hover:bg-surface hover:border-coral text-secondary hover:text-primary transition-all"
         >
-          💻 /sysinfo (Laptop Telemetry)
+          💻 /sysinfo (Host Telemetry)
         </button>
         <button
+          type="button"
           onClick={() => handleCommand("/help")}
-          className="px-2.5 py-1 rounded bg-agent-card border border-agent-border hover:border-slate-400 text-slate-300 transition-all"
+          className="px-2.5 py-1 rounded-[4px] border border-border-subtle bg-card hover:bg-surface hover:border-coral text-secondary hover:text-primary transition-all"
         >
           💡 /help
         </button>
       </div>
 
       {/* Terminal Window Box */}
-      <div className="relative rounded-xl border border-agent-border bg-agent-card/90 shadow-2xl backdrop-blur-xl overflow-hidden font-mono">
-        {/* CRT Scanline effect */}
-        <div className="crt-overlay absolute inset-0 z-10 pointer-events-none opacity-40" />
-
+      <Card className="border-border-subtle bg-surface shadow-lg overflow-hidden font-mono">
         {/* Window Titlebar */}
-        <div className="bg-[#0b0f19] px-4 py-3 border-b border-agent-border/70 flex items-center justify-between text-xs select-none">
-          <div className="flex items-center space-x-2">
-            <span className="w-3 h-3 rounded-full bg-rose-500/80 inline-block" />
-            <span className="w-3 h-3 rounded-full bg-amber-500/80 inline-block" />
-            <span className="w-3 h-3 rounded-full bg-emerald-500/80 inline-block" />
-            <span className="ml-3 text-slate-400 font-semibold">pcbrew — agentic-terminal — 120x35</span>
+        <div className="bg-elevated px-4 py-2.5 border-b border-border-subtle flex items-center justify-between text-xs select-none">
+          <div className="flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-status-error inline-block opacity-80" />
+            <span className="w-2.5 h-2.5 rounded-full bg-status-warning inline-block opacity-80" />
+            <span className="w-2.5 h-2.5 rounded-full bg-status-success inline-block opacity-80" />
+            <span className="ml-2 font-mono text-secondary font-medium">
+              pcbrew — agentic-terminal — 120x35
+            </span>
           </div>
-          <div className="flex items-center space-x-3 text-agent-dim text-[11px]">
-            <span className="flex items-center space-x-1">
-              <Cpu className="w-3.5 h-3.5 text-agent-cyan" />
+
+          <div className="flex items-center gap-3 text-muted text-[11px]">
+            <span className="hidden sm:flex items-center gap-1">
+              <Cpu className="h-3.5 w-3.5 text-sea-green" />
               <span>Bun v1.4.2 Native</span>
             </span>
-            <span className="px-2 py-0.5 rounded bg-emerald-950/60 text-agent-green border border-emerald-500/30">
+            <span className="px-2 py-0.5 rounded-[4px] border border-status-success/30 bg-status-success/10 text-status-success font-bold text-[10px]">
               OPENROUTER READY
             </span>
           </div>
         </div>
 
         {/* Terminal Screen Body */}
-        <div className="p-4 sm:p-6 min-h-[380px] max-h-[540px] overflow-y-auto space-y-4 text-xs sm:text-sm">
+        <div className="p-4 sm:p-6 min-h-[360px] max-h-[500px] overflow-y-auto space-y-3.5 text-xs sm:text-[13px] bg-page">
           {history.map((item) => (
             <motion.div
               key={item.id}
-              initial={{ opacity: 0, y: 5 }}
+              initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.15 }}
             >
               {item.type === "system" && (
-                <pre className="text-agent-accent font-bold leading-tight select-none overflow-x-auto whitespace-pre">
+                <pre className="text-coral font-bold leading-tight select-none overflow-x-auto whitespace-pre">
                   {item.content}
                 </pre>
               )}
 
               {item.type === "input" && (
-                <div className="flex items-start space-x-2 text-slate-100">
-                  <span className="text-agent-accentBright font-bold">pcbrew ❯</span>
-                  <span className="text-emerald-300 font-semibold">{item.content}</span>
+                <div className="flex items-start gap-2 text-primary">
+                  <span className="text-coral font-bold select-none">pcbrew ❯</span>
+                  <span className="text-sea-green font-medium">{item.content}</span>
                 </div>
               )}
 
               {item.type === "output" && (
-                <pre className="text-slate-300 whitespace-pre-wrap leading-relaxed bg-[#06080e]/60 p-3 rounded border border-agent-border/40 font-mono">
+                <pre className="text-secondary whitespace-pre-wrap leading-relaxed bg-surface/80 p-3 rounded-[6px] border border-border-subtle font-mono">
                   {item.content}
                 </pre>
               )}
 
               {item.type === "plan" && item.planData && (
-                <div className="p-4 rounded-lg bg-agent-bg/80 border border-agent-cyan/40 space-y-3">
-                  <div className="flex items-center justify-between border-b border-agent-border pb-2">
-                    <span className="text-agent-cyan font-bold flex items-center space-x-2">
+                <div className="p-4 rounded-[6px] bg-surface border border-sea-green/40 space-y-3">
+                  <div className="flex items-center justify-between border-b border-border-subtle pb-2">
+                    <span className="text-sea-green font-bold flex items-center gap-2">
                       <span>📋 GENERATED PLAN:</span>
-                      <span className="text-slate-200">{item.planData.goal}</span>
+                      <span className="text-primary">{item.planData.goal}</span>
                     </span>
-                    <span className="text-[11px] text-agent-dim">4 steps proposed</span>
+                    <span className="text-[11px] text-muted">4 steps proposed</span>
                   </div>
                   <div className="space-y-2">
                     {item.planData.steps.map((step) => (
                       <div
                         key={step.id}
-                        className="flex items-start space-x-3 p-2 rounded bg-agent-card/60 border border-agent-border/50 text-xs"
+                        className="flex items-start gap-3 p-2 rounded-[4px] bg-elevated border border-border-subtle text-xs"
                       >
-                        <span className="text-agent-cyan font-bold">{step.id}</span>
+                        <span className="text-sea-green font-bold">{step.id}</span>
                         <div className="flex-1">
-                          <p className="font-semibold text-slate-200">{step.title}</p>
-                          <p className="text-agent-dim text-[11px]">{step.desc}</p>
+                          <p className="font-semibold text-primary">{step.title}</p>
+                          <p className="text-muted text-[11px]">{step.desc}</p>
                         </div>
-                        <span className="text-agent-green text-[11px] px-1.5 py-0.5 rounded bg-emerald-950 border border-emerald-500/30">
+                        <span className="text-status-success text-[10px] px-1.5 py-0.5 rounded-[4px] border border-status-success/30 bg-status-success/10 font-bold">
                           Selected
                         </span>
                       </div>
@@ -431,49 +471,59 @@ Agent processed instructions successfully. Type /help to see specialized command
               )}
 
               {item.type === "diff" && item.diffData && (
-                <div className="p-4 rounded-lg bg-[#080c14] border border-amber-500/40 space-y-3">
-                  <div className="flex items-center justify-between border-b border-agent-border pb-2">
-                    <div className="flex items-center space-x-2">
-                      <ShieldAlert className="w-4 h-4 text-agent-accentBright" />
-                      <span className="font-bold text-agent-accentBright">
+                <div className="p-4 rounded-[6px] bg-surface border border-coral/40 space-y-3">
+                  <div className="flex items-center justify-between border-b border-border-subtle pb-2">
+                    <div className="flex items-center gap-2">
+                      <ShieldAlert className="h-4 w-4 text-coral" />
+                      <span className="font-bold text-coral">
                         STAGED UNIFIED DIFF APPROVAL
                       </span>
-                      <span className="text-slate-400 font-mono text-xs">
+                      <span className="text-muted font-mono text-xs">
                         ({item.diffData.file})
                       </span>
                     </div>
-                    <span className="text-[11px] text-amber-400">Disk Untouched</span>
+                    <span className="text-[11px] text-coral font-bold">Disk Untouched</span>
                   </div>
 
-                  <div className="font-mono text-xs p-3 rounded bg-black/60 border border-agent-border/60 space-y-1">
+                  <div className="font-mono text-xs p-3 rounded-[4px] bg-page border border-border-subtle space-y-1">
                     {item.diffData.deletions.map((del, i) => (
-                      <div key={i} className="text-rose-400 bg-rose-950/20 px-2 py-0.5 rounded">
+                      <div
+                        key={i}
+                        className="text-status-error bg-status-error/10 px-2 py-0.5 rounded-[2px]"
+                      >
                         {del}
                       </div>
                     ))}
                     {item.diffData.additions.map((add, i) => (
-                      <div key={i} className="text-emerald-400 bg-emerald-950/20 px-2 py-0.5 rounded">
+                      <div
+                        key={i}
+                        className="text-status-success bg-status-success/10 px-2 py-0.5 rounded-[2px]"
+                      >
                         {add}
                       </div>
                     ))}
                   </div>
 
                   {/* Manual Approval Action */}
-                  <div className="flex items-center space-x-3 pt-1">
-                    <button
+                  <div className="flex items-center gap-2 pt-1">
+                    <Button
+                      variant="primary"
+                      size="sm"
                       onClick={() => handleApproveDiff(item.id)}
-                      className="px-3 py-1.5 text-xs font-mono rounded bg-emerald-600 hover:bg-emerald-500 text-white flex items-center space-x-1.5 font-semibold transition-all shadow-matrix"
+                      className="gap-1.5 font-mono text-xs"
                     >
-                      <Check className="w-3.5 h-3.5" />
+                      <Check className="h-3.5 w-3.5" />
                       <span>[y] Approve & Apply to Disk</span>
-                    </button>
-                    <button
+                    </Button>
+                    <Button
+                      variant="secondary"
+                      size="sm"
                       onClick={() => handleRejectDiff(item.id)}
-                      className="px-3 py-1.5 text-xs font-mono rounded bg-agent-card hover:bg-rose-950/40 border border-rose-500/40 text-rose-300 flex items-center space-x-1.5 transition-all"
+                      className="gap-1.5 font-mono text-xs text-status-error hover:text-status-error border-status-error/40 bg-status-error/10"
                     >
-                      <X className="w-3.5 h-3.5" />
+                      <X className="h-3.5 w-3.5" />
                       <span>[n] Reject & Discard</span>
-                    </button>
+                    </Button>
                   </div>
                 </div>
               )}
@@ -481,8 +531,8 @@ Agent processed instructions successfully. Type /help to see specialized command
           ))}
 
           {isProcessing && (
-            <div className="flex items-center space-x-2 text-agent-accent text-xs">
-              <span className="w-2 h-2 rounded-full bg-agent-accent animate-ping" />
+            <div className="flex items-center gap-2 text-coral text-xs">
+              <span className="w-2 h-2 rounded-full bg-coral animate-ping" />
               <span>PC Brew agent processing via OpenRouter tool loop...</span>
             </div>
           )}
@@ -496,25 +546,24 @@ Agent processed instructions successfully. Type /help to see specialized command
             e.preventDefault();
             handleCommand(inputVal);
           }}
-          className="p-3 bg-[#090d16] border-t border-agent-border flex items-center space-x-2"
+          className="p-3 bg-elevated border-t border-border-subtle flex items-center gap-2"
         >
-          <span className="text-agent-accentBright font-bold select-none pl-2">pcbrew ❯</span>
+          <span className="text-coral font-bold select-none pl-2 font-mono text-xs sm:text-sm">
+            pcbrew ❯
+          </span>
           <input
             type="text"
             value={inputVal}
             onChange={(e) => setInputVal(e.target.value)}
             placeholder="Type /config, /agent, /plan, /ask, /cmd, /sysinfo..."
-            className="flex-1 bg-transparent border-0 outline-none text-slate-100 placeholder:text-agent-dim text-xs sm:text-sm font-mono focus:ring-0"
+            className="flex-1 bg-transparent border-0 outline-none text-primary placeholder:text-muted/60 text-xs sm:text-sm font-mono focus:ring-0"
           />
-          <button
-            type="submit"
-            className="px-3 py-1.5 rounded bg-agent-accent hover:bg-agent-accentBright text-black font-bold text-xs flex items-center space-x-1 transition-all"
-          >
-            <Play className="w-3 h-3 fill-current" />
+          <Button type="submit" variant="primary" size="sm" className="gap-1 font-mono text-xs">
+            <Play className="h-3 w-3 fill-current" />
             <span>EXEC</span>
-          </button>
+          </Button>
         </form>
-      </div>
-    </section>
+      </Card>
+    </Section>
   );
 };

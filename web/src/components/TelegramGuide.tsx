@@ -1,17 +1,20 @@
 "use client";
 
-import React, { useState } from "react";
-import { motion } from "framer-motion";
-import { Send, Key, UserCheck, ShieldAlert, Check, Copy, Bot, Smartphone, ExternalLink } from "lucide-react";
+import * as React from "react";
+import { Send, ShieldAlert, Check, Copy, Bot, Smartphone } from "lucide-react";
+import { Section } from "@/components/primitives/Section";
+import { SectionHeader } from "@/components/primitives/SectionHeader";
+import { Card } from "@/components/primitives/Card";
+import { Button } from "@/components/ui/button";
 
 export const TelegramGuide: React.FC = () => {
-  const [copiedKey, setCopiedKey] = useState<string | null>(null);
-  const [chatMessages, setChatMessages] = useState<
+  const [copiedKey, setCopiedKey] = React.useState<string | null>(null);
+  const [chatMessages, setChatMessages] = React.useState<
     { sender: "user" | "bot"; text: string; buttons?: string[] }[]
   >([
     {
       sender: "bot",
-      text: "☕ *PC Brew Bot Online*\n\nWelcome back, operator! Authorized session established.\n\nCommands:\n• `/ask <question>`\n• `/agent <task>`\n• `/plan <goal>`",
+      text: "PC BREW Bot Online\n\nAuthorized session established.\n\nCommands:\n• /ask <question>\n• /agent <task>\n• /plan <goal>",
     },
     {
       sender: "user",
@@ -19,11 +22,11 @@ export const TelegramGuide: React.FC = () => {
     },
     {
       sender: "bot",
-      text: "⚡ *Agent Staged Diff Approval Needed*\n\nFile: `modes/telegram/auth.ts`\n```diff\n- return tokenValid;\n+ return await refreshToken(token);\n```\nApprove changes to local workspace?",
+      text: "⚡ Staged Diff Approval Needed\n\nFile: modes/telegram/auth.ts\n- return tokenValid;\n+ return await refreshToken(token);\n\nApprove changes to local workspace?",
       buttons: ["✅ Approve Diff", "❌ Reject Diff"],
     },
   ]);
-  const [userInput, setUserInput] = useState("");
+  const [userInput, setUserInput] = React.useState("");
 
   const copyToClipboard = (text: string, id: string) => {
     navigator.clipboard.writeText(text);
@@ -46,8 +49,8 @@ export const TelegramGuide: React.FC = () => {
           ...prev,
           {
             sender: "bot",
-            text: "📋 *Plan Generated: 3 Steps*\n\n1️⃣ Inspect schema\n2️⃣ Generate endpoints\n3️⃣ Write unit tests\n\nClick below to toggle steps:",
-            buttons: ["Toggle 1️⃣", "Toggle 2️⃣", "Toggle 3️⃣", "🚀 Run Plan"],
+            text: "Plan Generated: 3 Steps\n\n1. Inspect schema\n2. Generate endpoints\n3. Write unit tests\n\nClick below to toggle steps:",
+            buttons: ["Toggle 1", "Toggle 2", "Toggle 3", "Run Plan"],
           },
         ]);
       } else if (text.startsWith("/ask")) {
@@ -55,7 +58,7 @@ export const TelegramGuide: React.FC = () => {
           ...prev,
           {
             sender: "bot",
-            text: "🧠 *Codebase Insight:*\nYour Telegram integration uses Telegraf with inline keyboard callbacks for non-blocking asynchronous confirmations.",
+            text: "Codebase Insight:\nYour Telegram integration uses Telegraf with inline keyboard callbacks for non-blocking asynchronous confirmations.",
           },
         ]);
       } else {
@@ -63,7 +66,7 @@ export const TelegramGuide: React.FC = () => {
           ...prev,
           {
             sender: "bot",
-            text: `🤖 Received: "${text}". Agent dispatched task to local workspace.`,
+            text: `Received: "${text}". Agent dispatched task to local workspace.`,
           },
         ]);
       }
@@ -71,105 +74,108 @@ export const TelegramGuide: React.FC = () => {
   };
 
   return (
-    <section id="telegram" className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto font-mono">
-      {/* Title */}
-      <div className="mb-8">
-        <div className="flex items-center space-x-2 text-sky-400 text-xs uppercase tracking-wider mb-1">
-          <Send className="w-4 h-4 text-sky-400" />
-          <span>Remote Telemetry & Operations</span>
-        </div>
-        <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
-          TELEGRAM BOT <span className="text-sky-400">// SETUP & ATTACH GUIDE</span>
-        </h2>
-        <p className="mt-2 text-sm text-agent-dim max-w-3xl">
-          Control your local development workspace, review staged diffs, and spawn AI agents directly from your mobile Telegram app.
-        </p>
-      </div>
+    <Section id="telegram" className="py-16 border-b border-border-subtle">
+      <SectionHeader
+        eyebrow="Remote Telemetry & Operations"
+        title="Telegram Bot: Setup & Attach Guide"
+        description="Control your local development workspace, review staged diffs, and spawn AI agents directly from your mobile Telegram app."
+      />
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         {/* Step-by-Step Instructions (7 cols) */}
-        <div className="lg:col-span-7 space-y-5">
+        <div className="lg:col-span-7 space-y-4">
           {/* Step 1 */}
-          <div className="p-5 rounded-xl bg-agent-card/80 border border-agent-border space-y-3">
-            <div className="flex items-center space-x-2.5">
-              <span className="w-6 h-6 rounded-full bg-sky-500/20 text-sky-400 border border-sky-500/40 text-xs flex items-center justify-center font-bold">
+          <Card className="p-5 border-border-subtle bg-card space-y-3">
+            <div className="flex items-center gap-2.5">
+              <span className="w-6 h-6 rounded-full bg-accent-soft text-coral border border-border-accent text-xs flex items-center justify-center font-bold">
                 1
               </span>
-              <h3 className="text-sm font-bold text-white">Create Bot with @BotFather</h3>
+              <h3 className="text-sm font-bold text-primary font-display">
+                Create Bot with @BotFather
+              </h3>
             </div>
-            <p className="text-xs text-agent-dim leading-relaxed">
-              Open the Telegram app and search for <strong className="text-sky-400">@BotFather</strong>. Send the command <code className="text-slate-200">/newbot</code>, give it a name and username (e.g. <code className="text-slate-200">my_pcbrew_bot</code>). BotFather will reply with your unique API Token.
+            <p className="text-xs text-secondary leading-relaxed">
+              Open the Telegram app and search for <strong className="text-coral">@BotFather</strong>. Send the command <code className="text-primary font-mono bg-elevated px-1 py-0.5 rounded-[4px] border border-border-subtle">/newbot</code>, give it a name and username (e.g. <code className="text-primary font-mono bg-elevated px-1 py-0.5 rounded-[4px] border border-border-subtle">my_pcbrew_bot</code>). BotFather will reply with your unique API Token.
             </p>
-            <div className="p-3 rounded bg-black/60 border border-agent-border/60 text-xs text-slate-300 font-mono flex items-center justify-between">
-              <span className="truncate text-agent-dim">Format: 7123456789:AAHq_xyzABC...</span>
-              <span className="text-[11px] text-sky-400 shrink-0 ml-2">Keep Secret!</span>
+            <div className="p-3 rounded-[6px] bg-elevated border border-border-subtle text-xs text-secondary font-mono flex items-center justify-between">
+              <span className="truncate text-muted">Format: 7123456789:AAHq_xyzABC...</span>
+              <span className="text-[11px] text-coral font-bold shrink-0 ml-2">Keep Secret!</span>
             </div>
-          </div>
+          </Card>
 
           {/* Step 2 */}
-          <div className="p-5 rounded-xl bg-agent-card/80 border border-agent-border space-y-3">
-            <div className="flex items-center space-x-2.5">
-              <span className="w-6 h-6 rounded-full bg-sky-500/20 text-sky-400 border border-sky-500/40 text-xs flex items-center justify-center font-bold">
+          <Card className="p-5 border-border-subtle bg-card space-y-3">
+            <div className="flex items-center gap-2.5">
+              <span className="w-6 h-6 rounded-full bg-accent-soft text-coral border border-border-accent text-xs flex items-center justify-center font-bold">
                 2
               </span>
-              <h3 className="text-sm font-bold text-white">Get Your Telegram User ID (Auth Protection)</h3>
+              <h3 className="text-sm font-bold text-primary font-display">
+                Get Your Telegram User ID (Auth Protection)
+              </h3>
             </div>
-            <p className="text-xs text-agent-dim leading-relaxed">
-              Search for <strong className="text-sky-400">@userinfobot</strong> on Telegram and send any message. It will reply with your numerical Id (e.g. <code className="text-slate-200">123456789</code>).
+            <p className="text-xs text-secondary leading-relaxed">
+              Search for <strong className="text-coral">@userinfobot</strong> on Telegram and send any message. It will reply with your numerical Id (e.g. <code className="text-primary font-mono bg-elevated px-1 py-0.5 rounded-[4px] border border-border-subtle">123456789</code>).
             </p>
-            <div className="p-3 rounded bg-amber-950/20 border border-amber-500/30 text-xs text-amber-300 flex items-start space-x-2">
-              <ShieldAlert className="w-4 h-4 shrink-0 mt-0.5" />
+            <div className="p-3 rounded-[6px] bg-accent-soft border border-border-accent text-xs text-secondary flex items-start gap-2">
+              <ShieldAlert className="w-4 h-4 text-coral shrink-0 mt-0.5" />
               <span>
-                <strong>Crucial Safeguard:</strong> PC Brew checks every incoming Telegram command against this ID. Anyone else messaging your bot will be rejected immediately.
+                <strong className="text-coral">Crucial Safeguard:</strong> PC Brew checks every incoming Telegram command against this ID. Anyone else messaging your bot will be rejected immediately.
               </span>
             </div>
-          </div>
+          </Card>
 
           {/* Step 3 */}
-          <div className="p-5 rounded-xl bg-agent-card/80 border border-agent-border space-y-3">
-            <div className="flex items-center space-x-2.5">
-              <span className="w-6 h-6 rounded-full bg-sky-500/20 text-sky-400 border border-sky-500/40 text-xs flex items-center justify-center font-bold">
+          <Card className="p-5 border-border-subtle bg-card space-y-3">
+            <div className="flex items-center gap-2.5">
+              <span className="w-6 h-6 rounded-full bg-accent-soft text-coral border border-border-accent text-xs flex items-center justify-center font-bold">
                 3
               </span>
-              <h3 className="text-sm font-bold text-white">Add Variables to .env & Launch</h3>
+              <h3 className="text-sm font-bold text-primary font-display">
+                Add Variables & Launch Gateway
+              </h3>
             </div>
-            <div className="p-3 rounded bg-black/60 border border-agent-border/60 text-xs space-y-1">
-              <div className="text-agent-dim"># Add to .env or run pcbrew setup</div>
-              <div className="text-emerald-300">TELEGRAM_BOT_TOKEN=7123456789:AAHq_xyzABC...</div>
-              <div className="text-emerald-300">TELEGRAM_OWNER_ID=123456789</div>
+            <div className="p-3 rounded-[6px] bg-elevated border border-border-subtle text-xs font-mono space-y-1">
+              <div className="text-muted"># Add to config or run pcbrew setup</div>
+              <div className="text-sea-green">TELEGRAM_BOT_TOKEN=7123456789:AAHq_xyzABC...</div>
+              <div className="text-sea-green">TELEGRAM_OWNER_ID=123456789</div>
             </div>
             <div className="pt-2">
-              <button
+              <Button
+                variant="primary"
                 onClick={() => copyToClipboard("pcbrew telegram", "cmd-tg")}
-                className="w-full py-2.5 px-4 rounded bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs flex items-center justify-center space-x-2 transition-all shadow-neon"
+                className="w-full gap-2 font-mono text-xs"
               >
                 <Bot className="w-4 h-4" />
                 <span>Run: pcbrew telegram</span>
-                {copiedKey === "cmd-tg" ? <Check className="w-4 h-4 text-emerald-300 ml-2" /> : <Copy className="w-4 h-4 ml-2" />}
-              </button>
+                {copiedKey === "cmd-tg" ? (
+                  <Check className="w-4 h-4 text-sea-green ml-2" />
+                ) : (
+                  <Copy className="w-4 h-4 ml-2" />
+                )}
+              </Button>
             </div>
-          </div>
+          </Card>
         </div>
 
         {/* Telegram Mobile UI Interactive Simulator (5 cols) */}
         <div className="lg:col-span-5">
-          <div className="rounded-2xl border-2 border-agent-border bg-[#0e1621] shadow-2xl overflow-hidden max-w-sm mx-auto">
+          <Card className="rounded-[12px] border border-border-subtle bg-card shadow-lg overflow-hidden max-w-sm mx-auto">
             {/* Telegram Header */}
-            <div className="bg-[#17212b] px-4 py-3 border-b border-[#242f3d] flex items-center justify-between text-xs">
-              <div className="flex items-center space-x-2.5">
-                <div className="w-8 h-8 rounded-full bg-sky-500 flex items-center justify-center text-white font-bold">
+            <div className="bg-elevated px-4 py-3 border-b border-border-subtle flex items-center justify-between text-xs">
+              <div className="flex items-center gap-2.5">
+                <div className="w-7 h-7 rounded-full bg-coral text-on-accent font-bold flex items-center justify-center text-xs">
                   PB
                 </div>
                 <div>
-                  <p className="font-bold text-white leading-none">PC Brew Bot</p>
-                  <p className="text-[10px] text-sky-400">bot • online</p>
+                  <p className="font-bold text-primary leading-none">PC Brew Bot</p>
+                  <p className="text-[10px] text-sea-green mt-0.5">bot • online</p>
                 </div>
               </div>
-              <Smartphone className="w-4 h-4 text-slate-400" />
+              <Smartphone className="w-4 h-4 text-muted" />
             </div>
 
             {/* Chat Body */}
-            <div className="p-3 space-y-3 h-[380px] overflow-y-auto text-xs bg-[#0e1621]/95">
+            <div className="p-3 space-y-3 h-[360px] overflow-y-auto text-xs bg-page">
               {chatMessages.map((msg, i) => (
                 <div
                   key={i}
@@ -178,10 +184,10 @@ export const TelegramGuide: React.FC = () => {
                   }`}
                 >
                   <div
-                    className={`max-w-[85%] rounded-lg p-2.5 leading-relaxed text-xs ${
+                    className={`max-w-[85%] rounded-[8px] p-2.5 leading-relaxed text-xs font-sans ${
                       msg.sender === "user"
-                        ? "bg-[#2b5278] text-white rounded-br-none"
-                        : "bg-[#182533] text-slate-200 border border-[#2b3c4f] rounded-bl-none"
+                        ? "bg-coral text-on-accent rounded-br-none"
+                        : "bg-elevated text-primary border border-border-subtle rounded-bl-none"
                     }`}
                   >
                     <pre className="whitespace-pre-wrap font-sans text-xs">{msg.text}</pre>
@@ -192,7 +198,8 @@ export const TelegramGuide: React.FC = () => {
                       {msg.buttons.map((b, bi) => (
                         <button
                           key={bi}
-                          className="px-2.5 py-1 text-[11px] rounded bg-[#2b5278]/60 hover:bg-[#2b5278] text-sky-200 border border-sky-400/30 transition-all"
+                          type="button"
+                          className="px-2.5 py-1 text-[11px] rounded-[4px] bg-interactive-hover hover:bg-interactive text-primary border border-border-subtle transition-all font-mono"
                         >
                           {b}
                         </button>
@@ -206,25 +213,27 @@ export const TelegramGuide: React.FC = () => {
             {/* Chat Input */}
             <form
               onSubmit={handleSendChat}
-              className="p-2.5 bg-[#17212b] border-t border-[#242f3d] flex items-center space-x-2"
+              className="p-2.5 bg-elevated border-t border-border-subtle flex items-center gap-2"
             >
               <input
                 type="text"
                 value={userInput}
                 onChange={(e) => setUserInput(e.target.value)}
                 placeholder="Type /ask, /plan, /agent..."
-                className="flex-1 bg-[#0e1621] rounded-full px-3 py-1.5 text-xs text-white placeholder:text-slate-500 outline-none border border-[#242f3d]"
+                className="flex-1 bg-surface rounded-[6px] px-3 py-1.5 text-xs text-primary placeholder:text-muted/60 outline-none border border-border-subtle focus:border-coral font-mono"
               />
-              <button
+              <Button
                 type="submit"
-                className="w-7 h-7 rounded-full bg-sky-500 hover:bg-sky-400 text-white flex items-center justify-center shrink-0 transition-colors"
+                variant="primary"
+                size="icon"
+                className="h-7 w-7 rounded-[6px] flex-shrink-0"
               >
                 <Send className="w-3.5 h-3.5" />
-              </button>
+              </Button>
             </form>
-          </div>
+          </Card>
         </div>
       </div>
-    </section>
+    </Section>
   );
 };

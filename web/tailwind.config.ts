@@ -6,56 +6,140 @@ const config: Config = {
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
-  darkMode: "class",
+  darkMode: ["class", '[data-theme="dark"]'],
   theme: {
     extend: {
       colors: {
-        agent: {
-          bg: "#06090e",
-          card: "#0d111a",
-          border: "#1f293d",
-          accent: "#b68f2d",
-          accentBright: "#f5b72e",
-          cyan: "#00f3ff",
-          green: "#00ff9d",
-          red: "#ff4d4f",
-          purple: "#a855f7",
-          dim: "#8b949e",
+        page: "var(--bg-page)",
+        surface: "var(--bg-surface)",
+        elevated: "var(--bg-elevated)",
+        primary: {
+          DEFAULT: "var(--text-primary)",
+          foreground: "var(--text-on-accent)",
         },
+        secondary: {
+          DEFAULT: "var(--text-secondary)",
+          foreground: "var(--accent-coral)",
+        },
+        muted: {
+          DEFAULT: "var(--text-muted)",
+          foreground: "var(--text-muted)",
+        },
+        coral: {
+          DEFAULT: "var(--accent-coral)",
+          hover: "var(--accent-coral-hover)",
+          deep: "var(--accent-coral-deep)",
+        },
+        "sea-green": "var(--accent-sea-green)",
+        "on-accent": "var(--text-on-accent)",
+        "border-subtle": "var(--border-subtle)",
+        "border-accent": "var(--border-accent)",
+        card: {
+          DEFAULT: "var(--card-bg)",
+          foreground: "var(--text-primary)",
+        },
+        interactive: {
+          DEFAULT: "var(--interactive-bg)",
+          hover: "var(--interactive-hover)",
+        },
+        "accent-soft": "var(--accent-soft)",
+        selection: "var(--selection-bg)",
+        "focus-ring": "var(--focus-ring)",
+        "modal-backdrop": "var(--modal-backdrop)",
+        status: {
+          success: "var(--status-success)",
+          warning: "var(--status-warning)",
+          error: "var(--status-error)",
+          info: "var(--status-info)",
+        },
+        // shadcn backward-compatibility tokens
+        background: "var(--bg-page)",
+        foreground: "var(--text-primary)",
+        border: "var(--border-subtle)",
+        input: "var(--border-subtle)",
+        ring: "var(--focus-ring)",
       },
       fontFamily: {
+        sans: [
+          "var(--font-inter)",
+          "Switzer",
+          "Inter",
+          "-apple-system",
+          "BlinkMacSystemFont",
+          "Segoe UI",
+          "sans-serif",
+        ],
+        display: [
+          "var(--font-inter)",
+          "Switzer",
+          "Inter",
+          "-apple-system",
+          "BlinkMacSystemFont",
+          "Segoe UI",
+          "sans-serif",
+        ],
+        serif: ["Sentient", "Georgia", "Times New Roman", "serif"],
         mono: [
-          "JetBrains Mono",
-          "Fira Code",
-          "Cascadia Code",
+          "ui-monospace",
+          "SFMono-Regular",
+          "SF Mono",
+          "Menlo",
           "Consolas",
-          "Courier New",
           "monospace",
         ],
       },
-      animation: {
-        "pulse-glow": "pulse-glow 2.5s infinite ease-in-out",
-        "scanline": "scanline 8s linear infinite",
-        "blink": "blink 1s steps(2, start) infinite",
+      fontSize: {
+        xs: ".75rem",
+        sm: ".8125rem",
+        base: ".875rem",
+        md: ".9375rem",
+        lg: "1.0625rem",
+        xl: "1.25rem",
+        "2xl": "1.5rem",
+        "3xl": "2rem",
       },
-      keyframes: {
-        "pulse-glow": {
-          "0%, 100%": { opacity: "0.4", filter: "drop-shadow(0 0 15px rgba(182, 143, 45, 0.4))" },
-          "50%": { opacity: "0.8", filter: "drop-shadow(0 0 25px rgba(182, 143, 45, 0.7))" },
-        },
-        "scanline": {
-          "0%": { transform: "translateY(-100%)" },
-          "100%": { transform: "translateY(1000%)" },
-        },
-        "blink": {
-          "0%, 100%": { opacity: "1" },
-          "50%": { opacity: "0" },
-        },
+      spacing: {
+        1: "4px",
+        2: "8px",
+        3: "12px",
+        4: "16px",
+        5: "20px", /* estimated */
+        6: "24px",
+        8: "32px",
+        12: "48px",
+        16: "64px",
+      },
+      borderRadius: {
+        sm: "4px",
+        DEFAULT: "8px",
+        md: "8px",
+        lg: "12px",
+        xl: "16px",
+        full: "999px",
+        control: "8px",
+        inset: "4px",
       },
       boxShadow: {
-        neon: "0 0 20px -3px rgba(0, 243, 255, 0.3)",
-        amberNeon: "0 0 25px -4px rgba(182, 143, 45, 0.4)",
-        matrix: "0 0 20px -3px rgba(0, 255, 157, 0.3)",
+        sm: "0 1px 2px rgb(0 0 0 / .12)",
+        md: "0 8px 24px -6px rgb(0 0 0 / .28)",
+        lg: "0 24px 48px -12px rgb(0 0 0 / .42)",
+      },
+      transitionDuration: {
+        control: "160ms",
+        card: "200ms",
+      },
+      transitionTimingFunction: {
+        eased: "cubic-bezier(.23, 1, .32, 1)",
+      },
+      maxWidth: {
+        content: "75rem", // 1200px
+        narrow: "48rem", // 768px
+      },
+      minHeight: {
+        control: "2.75rem", // 44px
+      },
+      screens: {
+        mobile: "42rem", // 672px verified breakpoint
       },
     },
   },

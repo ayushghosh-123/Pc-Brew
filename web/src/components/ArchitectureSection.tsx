@@ -1,11 +1,23 @@
 "use client";
 
-import React, { useState } from "react";
-import { motion } from "framer-motion";
-import { Layers, Terminal, Sparkles, Send, MessageSquare, Shield, CheckCircle2, FileCode, Cpu, ArrowRight } from "lucide-react";
+import * as React from "react";
+import {
+  Layers,
+  Terminal,
+  Sparkles,
+  Send,
+  MessageSquare,
+  CheckCircle2,
+  Cpu,
+  ArrowRight,
+} from "lucide-react";
+import { Section } from "@/components/primitives/Section";
+import { SectionHeader } from "@/components/primitives/SectionHeader";
+import { Card } from "@/components/primitives/Card";
+import { Pill } from "@/components/primitives/Pill";
 
 export const ArchitectureSection: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<number>(0);
+  const [activeTab, setActiveTab] = React.useState<number>(0);
 
   const modes = [
     {
@@ -13,7 +25,6 @@ export const ArchitectureSection: React.FC = () => {
       title: "1. Agentic Terminal Mode",
       badge: "pcbrew start",
       icon: Terminal,
-      color: "border-agent-accent text-agent-accentBright",
       desc: "Autonomous AI pairing terminal. Executes tool loops, reads files, discovers structure, stages file edits in virtual memory, and presents unified diffs for interactive user approval.",
       features: [
         "Interactive REPL with slash command palette (/config, /agent, /plan, /ask, /cmd, /sysinfo)",
@@ -21,14 +32,20 @@ export const ArchitectureSection: React.FC = () => {
         "Unified colored diff viewer before any byte touches your filesystem",
         "Autonomous directory exploration and codebase structural analysis",
       ],
-      flow: ["Prompt Input", "AI Reasoning (OpenRouter)", "Tool Execution Loop", "Unified Diff Staged", "User Approval [y/n]", "Committed to Disk"],
+      flow: [
+        "Prompt Input",
+        "AI Reasoning (OpenRouter)",
+        "Tool Execution Loop",
+        "Unified Diff Staged",
+        "User Approval [y/n]",
+        "Committed to Disk",
+      ],
     },
     {
       id: "plan",
       title: "2. Strategic Plan Mode",
       badge: "/plan <goal>",
       icon: Layers,
-      color: "border-agent-cyan text-agent-cyan",
       desc: "High-level goal decomposition. Breaks down complex requests into clean, ordered, toggleable execution steps with optional live web scraping via Firecrawl.",
       features: [
         "Generates clean architectural blueprints before writing code",
@@ -36,14 +53,19 @@ export const ArchitectureSection: React.FC = () => {
         "Firecrawl integration for scraping live job portals or documentation",
         "Converts complex full-stack features into bite-sized actionable items",
       ],
-      flow: ["Goal Defined", "Web/Codebase Scanned", "Step Decomposition", "Interactive Checkbox Selection", "Agent Dispatched per Step"],
+      flow: [
+        "Goal Defined",
+        "Web/Codebase Scanned",
+        "Step Decomposition",
+        "Interactive Checkbox Selection",
+        "Agent Dispatched per Step",
+      ],
     },
     {
       id: "telegram",
       title: "3. Telegram Bot Gateway",
       badge: "pcbrew telegram",
       icon: Send,
-      color: "border-sky-500 text-sky-400",
       desc: "Remote AI assistant on your phone. Connects via Telegraf and allows you to run /ask, /agent, and /plan tasks from anywhere with Telegram inline keyboard buttons.",
       features: [
         "Cryptographic owner verification against TELEGRAM_OWNER_ID",
@@ -51,14 +73,19 @@ export const ArchitectureSection: React.FC = () => {
         "Real-time progress streaming and markdown message formatting",
         "Long-running autonomous agent execution dispatched asynchronously",
       ],
-      flow: ["Telegram /command", "Owner ID Check", "Task Worker Dispatched", "Inline Diff Keyboard", "Phone One-Tap Approval"],
+      flow: [
+        "Telegram /command",
+        "Owner ID Check",
+        "Task Worker Dispatched",
+        "Inline Diff Keyboard",
+        "Phone One-Tap Approval",
+      ],
     },
     {
       id: "whatsapp",
       title: "4. WhatsApp Laptop Controller",
       badge: "pcbrew whatsapp",
       icon: MessageSquare,
-      color: "border-emerald-500 text-emerald-400",
       desc: "Turn your WhatsApp into a remote shell and AI controller for your laptop. Execute terminal commands (/cmd), check laptop battery and specs (/sysinfo), open apps (/open), and code remotely.",
       features: [
         "Baileys socket engine with persistent auth (.whatsapp_auth/)",
@@ -67,46 +94,54 @@ export const ArchitectureSection: React.FC = () => {
         "Hardware telemetry: battery, memory, CPU load, and uptime directly in chat",
         "App launcher: /open chrome, /open vs-code, /open https://github.com",
       ],
-      flow: ["Scan QR Once", "Send /cmd or /agent", "Executed on Local Laptop", "Terminal Output Clipped & Sent", "Complete Control in Chat"],
+      flow: [
+        "Scan QR Once",
+        "Send /cmd or /agent",
+        "Executed on Local Laptop",
+        "Terminal Output Clipped & Sent",
+        "Complete Control in Chat",
+      ],
     },
   ];
 
-  return (
-    <section className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto font-mono">
-      {/* Title */}
-      <div className="mb-8">
-        <div className="flex items-center space-x-2 text-agent-accent text-xs uppercase tracking-wider mb-1">
-          <Layers className="w-4 h-4 text-agent-accentBright" />
-          <span>Core Capabilities & Workflow</span>
-        </div>
-        <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
-          SYSTEM ARCHITECTURE <span className="text-agent-accent">// HOW IT WORKS</span>
-        </h2>
-        <p className="mt-2 text-sm text-agent-dim max-w-3xl">
-          Four synchronized operational modes powered by the Vercel AI SDK, OpenRouter LLMs, Baileys WhatsApp sockets, and Telegraf.
-        </p>
-      </div>
+  const currentMode = modes[activeTab] ?? modes[0];
 
-      {/* Mode Tabs */}
+  return (
+    <Section id="architecture" className="py-16 border-b border-border-subtle">
+      <SectionHeader
+        eyebrow="Core Capabilities & Workflow"
+        title="System Architecture: How It Works"
+        description="Four synchronized operational modes powered by the Vercel AI SDK, OpenRouter LLMs, Baileys WhatsApp sockets, and Telegraf."
+      />
+
+      {/* Mode Selectors */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
         {modes.map((m, idx) => {
           const Icon = m.icon;
           const isSelected = activeTab === idx;
+
           return (
             <button
               key={m.id}
+              type="button"
               onClick={() => setActiveTab(idx)}
-              className={`p-3.5 rounded-xl border text-left transition-all ${
+              className={`p-3.5 rounded-[8px] border text-left transition-all font-mono ${
                 isSelected
-                  ? `bg-agent-card border-agent-accent shadow-amberNeon`
-                  : "bg-agent-bg/80 border-agent-border/60 hover:border-agent-border text-agent-dim hover:text-white"
+                  ? "bg-card border-coral shadow-sm text-primary"
+                  : "bg-page border-border-subtle hover:border-border-accent text-secondary hover:text-primary"
               }`}
             >
-              <div className="flex items-center space-x-2 mb-1.5">
-                <Icon className={`w-4 h-4 ${isSelected ? m.color : "text-agent-dim"}`} />
-                <span className="text-xs font-bold truncate text-slate-200">{m.title.split(". ")[1]}</span>
+              <div className="flex items-center gap-2 mb-1.5">
+                <Icon
+                  className={`h-4 w-4 ${
+                    isSelected ? "text-coral" : "text-muted"
+                  }`}
+                />
+                <span className="text-xs font-bold truncate">
+                  {m.title.split(". ")[1]}
+                </span>
               </div>
-              <span className="text-[10px] px-2 py-0.5 rounded bg-black/60 border border-agent-border/50 text-agent-dim block w-fit truncate">
+              <span className="text-[10px] px-2 py-0.5 rounded-[4px] bg-elevated border border-border-subtle text-muted block w-fit truncate">
                 {m.badge}
               </span>
             </button>
@@ -114,70 +149,61 @@ export const ArchitectureSection: React.FC = () => {
         })}
       </div>
 
-      {/* Selected Mode Detail */}
-      {(() => {
-        const currentMode = modes[activeTab] ?? modes[0];
-        return (
-          <motion.div
-            key={activeTab}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.2 }}
-            className="rounded-xl border border-agent-border bg-agent-card/80 p-6 space-y-6"
-          >
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-agent-border/60 gap-3">
-              <div>
-                <h3 className="text-xl font-bold text-white flex items-center space-x-2">
-                  <span>{currentMode.title}</span>
-                </h3>
-                <p className="text-xs text-agent-dim mt-1">{currentMode.desc}</p>
-              </div>
-              <span className="px-3 py-1 rounded bg-black/70 border border-agent-accent/40 text-agent-accentBright text-xs font-bold self-start sm:self-auto">
-                {currentMode.badge}
-              </span>
-            </div>
+      {/* Selected Mode Detail Card */}
+      <Card className="p-6 border-border-subtle bg-card space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-border-subtle gap-3">
+          <div>
+            <h3 className="text-lg sm:text-xl font-display font-bold text-primary">
+              {currentMode.title}
+            </h3>
+            <p className="text-xs sm:text-sm text-secondary mt-1 max-w-2xl leading-relaxed">
+              {currentMode.desc}
+            </p>
+          </div>
+          <span className="px-3 py-1 rounded-[4px] border border-border-accent bg-accent-soft text-coral text-xs font-mono font-bold self-start sm:self-auto">
+            {currentMode.badge}
+          </span>
+        </div>
 
-            {/* Features List */}
-            <div>
-              <h4 className="text-xs uppercase text-slate-300 font-bold mb-3 flex items-center space-x-2">
-                <Sparkles className="w-3.5 h-3.5 text-agent-accent" />
-                <span>Key Subsystems & Safeguards</span>
-              </h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {currentMode.features.map((feat, i) => (
-                  <div
-                    key={i}
-                    className="p-3 rounded-lg bg-agent-bg/80 border border-agent-border/60 flex items-start space-x-2.5 text-xs text-slate-300"
-                  >
-                    <CheckCircle2 className="w-4 h-4 text-agent-green shrink-0 mt-0.5" />
-                    <span>{feat}</span>
-                  </div>
-                ))}
+        {/* Features List */}
+        <div>
+          <h4 className="text-xs font-mono uppercase text-muted font-bold mb-3 flex items-center gap-2">
+            <Sparkles className="h-3.5 w-3.5 text-coral" />
+            <span>Key Subsystems & Safeguards</span>
+          </h4>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            {currentMode.features.map((feat, i) => (
+              <div
+                key={i}
+                className="p-3 rounded-[6px] bg-elevated border border-border-subtle flex items-start gap-2.5 text-xs text-secondary"
+              >
+                <CheckCircle2 className="h-4 w-4 text-sea-green shrink-0 mt-0.5" />
+                <span>{feat}</span>
               </div>
-            </div>
+            ))}
+          </div>
+        </div>
 
-            {/* Execution Flow Diagram */}
-            <div className="pt-2">
-              <h4 className="text-xs uppercase text-slate-300 font-bold mb-3 flex items-center space-x-2">
-                <Cpu className="w-3.5 h-3.5 text-agent-cyan" />
-                <span>Execution Lifecycle</span>
-              </h4>
-              <div className="flex flex-wrap items-center gap-2 text-xs">
-                {currentMode.flow.map((node, i) => (
-                  <React.Fragment key={i}>
-                    <div className="px-3 py-2 rounded-lg bg-black/80 border border-agent-border/80 text-slate-200 font-semibold shadow-sm">
-                      {node}
-                    </div>
-                    {i < currentMode.flow.length - 1 && (
-                      <ArrowRight className="w-3.5 h-3.5 text-agent-accent shrink-0" />
-                    )}
-                  </React.Fragment>
-                ))}
-              </div>
-            </div>
-          </motion.div>
-        );
-      })()}
-    </section>
+        {/* Execution Flow Diagram */}
+        <div className="pt-2 border-t border-border-subtle/60">
+          <h4 className="text-xs font-mono uppercase text-muted font-bold mb-3 flex items-center gap-2">
+            <Cpu className="h-3.5 w-3.5 text-sea-green" />
+            <span>Execution Lifecycle</span>
+          </h4>
+          <div className="flex flex-wrap items-center gap-2 text-xs font-mono">
+            {currentMode.flow.map((node, i) => (
+              <React.Fragment key={i}>
+                <div className="px-3 py-2 rounded-[6px] bg-elevated border border-border-subtle text-primary font-medium shadow-sm">
+                  {node}
+                </div>
+                {i < currentMode.flow.length - 1 && (
+                  <ArrowRight className="h-3.5 w-3.5 text-coral shrink-0" />
+                )}
+              </React.Fragment>
+            ))}
+          </div>
+        </div>
+      </Card>
+    </Section>
   );
 };
